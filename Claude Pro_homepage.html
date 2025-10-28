@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>North Carolina Botanical Garden | Connecting Plants, People & Place</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         :root {
             --purple: #583c5c;
             --sage: #dcdeb1;
@@ -20,188 +24,782 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
         }
         
-        .hero-section {
-            background: linear-gradient(rgba(21, 50, 45, 0.3), rgba(21, 50, 45, 0.3)), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%2316b5c6" width="1200" height="600"/><path fill="%236ca399" d="M0,300 Q300,200 600,300 T1200,300 L1200,600 L0,600 Z"/><circle fill="%23bfca7e" cx="200" cy="150" r="80" opacity="0.3"/><circle fill="%23dcdeb1" cx="900" cy="200" r="100" opacity="0.3"/></svg>');
-            background-size: cover;
-            background-position: center;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .logo-text h1 {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-green);
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 14px;
+            color: var(--purple);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .search-bar {
+            display: none;
+            background: #f5f5f5;
+            border-radius: 25px;
+            padding: 8px 16px;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-bar input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 150px;
+        }
+        
+        .social-icons {
+            display: none;
+            gap: 12px;
+        }
+        
+        .social-icons a {
+            color: #666;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.2s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--cyan);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: opacity 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-donate {
+            background-color: var(--cyan);
+            color: white;
+        }
+        
+        .btn-shop {
+            background-color: var(--lime);
+            color: white;
+        }
+        
+        .btn-primary {
+            background-color: var(--teal);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--dark-green);
+        }
+        
+        .mobile-menu-btn {
+            display: block;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+        
+        .desktop-buttons {
+            display: none;
+        }
+        
+        /* Main Navigation */
+        .main-nav {
+            padding: 15px 0;
+        }
+        
+        .main-nav ul {
+            display: none;
+            list-style: none;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .main-nav a {
+            color: var(--dark-green);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        .main-nav a:hover {
+            color: var(--cyan);
+        }
+        
+        .mobile-nav {
+            display: none;
+            padding-bottom: 15px;
+        }
+        
+        .mobile-nav.active {
+            display: block;
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+        }
+        
+        .mobile-nav li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .mobile-nav a {
+            color: var(--dark-green);
+            text-decoration: none;
+            display: block;
+        }
+        
+        .mobile-buttons {
+            padding-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(21, 50, 45, 0.4), rgba(21, 50, 45, 0.4)), 
+                        linear-gradient(135deg, var(--light-teal) 0%, var(--cyan) 100%);
             min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
         }
         
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .hero .btn {
+            padding: 15px 35px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 250px;
+            text-align: center;
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 60px 20px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .section-header h3 {
+            font-size: 32px;
+            color: var(--dark-green);
+        }
+        
+        .section-header a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .section-header a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .grid-3 {
+            grid-template-columns: 1fr;
+        }
+        
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Card Styles */
         .card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
         
-        .nav-link {
-            transition: color 0.2s ease;
+        .card-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
         }
         
-        .nav-link:hover {
+        .card-content {
+            padding: 25px;
+        }
+        
+        .card-content h4 {
+            font-size: 20px;
+            color: var(--purple);
+            margin-bottom: 12px;
+        }
+        
+        .card-content p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .card-content a {
             color: var(--cyan);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
         }
         
-        .mobile-menu {
-            display: none;
+        .card-content a:hover {
+            text-decoration: underline;
         }
         
-        .mobile-menu.active {
-            display: block;
+        /* Event Card Styles */
+        .event-card {
+            border: 2px solid var(--light-teal);
+            border-radius: 8px;
+            padding: 25px;
         }
         
-        @media (max-width: 768px) {
-            .desktop-nav {
+        .event-date {
+            color: var(--cyan);
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .event-card h4 {
+            font-size: 20px;
+            color: var(--purple);
+            margin-bottom: 12px;
+        }
+        
+        .event-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .event-tag {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: var(--sage);
+            color: var(--dark-green);
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* News Card Styles */
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .news-date {
+            color: var(--cyan);
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .news-card h4 {
+            font-size: 24px;
+            color: var(--purple);
+            margin-bottom: 15px;
+        }
+        
+        .news-card p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .news-card a {
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .news-card a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Background Colors */
+        .bg-cream {
+            background-color: var(--cream);
+        }
+        
+        .bg-sage {
+            background-color: var(--sage);
+        }
+        
+        .bg-teal {
+            background-color: var(--teal);
+        }
+        
+        .bg-light-teal {
+            background-color: var(--light-teal);
+        }
+        
+        .bg-lime {
+            background-color: var(--lime);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-section h3 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .cta-buttons .btn {
+            padding: 15px 35px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 250px;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: var(--teal);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 50px 20px 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h4 {
+            color: var(--sage);
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-section p,
+        .footer-section li {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        
+        .footer-section a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-social a {
+            font-size: 24px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px 0 0 25px;
+            outline: none;
+        }
+        
+        .newsletter-form button {
+            padding: 10px 20px;
+            background-color: var(--cyan);
+            color: white;
+            border: none;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        /* Icons using Unicode and CSS */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            text-align: center;
+        }
+        
+        .icon-leaf::before { content: "🌿"; }
+        .icon-car::before { content: "🚗"; }
+        .icon-mobile::before { content: "📱"; }
+        .icon-shop::before { content: "🛍️"; }
+        .icon-facebook::before { content: "f"; font-family: Arial; font-weight: bold; }
+        .icon-twitter::before { content: "𝕏"; }
+        .icon-instagram::before { content: "📷"; }
+        .icon-youtube::before { content: "▶️"; }
+        
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .search-bar {
+                display: flex;
+            }
+            
+            .social-icons {
+                display: flex;
+            }
+            
+            .desktop-buttons {
+                display: flex;
+                gap: 10px;
+            }
+            
+            .mobile-menu-btn {
                 display: none;
+            }
+            
+            .main-nav ul {
+                display: flex;
+            }
+            
+            .mobile-nav {
+                display: none !important;
+            }
+            
+            .hero h2 {
+                font-size: 48px;
+            }
+            
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .hero .btn {
+                width: auto;
+            }
+            
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .cta-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .cta-buttons .btn {
+                width: auto;
+            }
+            
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
 </head>
-<body class="bg-white">
+<body>
     
     <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header>
+        <div class="container">
             <!-- Top Bar -->
-            <div class="flex items-center justify-between py-3 border-b border-gray-200">
-                <div class="flex items-center space-x-3">
-                    <!-- Logo -->
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: var(--teal);">
-                            <i class="fas fa-leaf text-white text-xl"></i>
-                        </div>
-                        <div class="ml-3">
-                            <h1 class="text-lg font-bold" style="color: var(--dark-green);">North Carolina</h1>
-                            <p class="text-sm" style="color: var(--purple);">Botanical Garden</p>
-                        </div>
+            <div class="header-top">
+                <div class="logo-section">
+                    <div class="logo-circle">
+                        <span class="icon-leaf"></span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>North Carolina</h1>
+                        <p>Botanical Garden</p>
                     </div>
                 </div>
                 
-                <!-- Right Side: Search, Social, External Links -->
-                <div class="flex items-center space-x-4">
+                <div class="header-right">
                     <!-- Search Bar (Desktop) -->
-                    <div class="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2">
-                        <input type="search" placeholder="Search..." class="bg-transparent outline-none text-sm w-40">
-                        <i class="fas fa-search text-gray-500"></i>
+                    <div class="search-bar">
+                        <input type="search" placeholder="Search..." aria-label="Search">
+                        <span>🔍</span>
                     </div>
                     
-                    <!-- Social Icons -->
-                    <div class="hidden sm:flex items-center space-x-3">
-                        <a href="#" class="text-gray-600 hover:text-blue-600 transition"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-blue-400 transition"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-pink-600 transition"><i class="fab fa-instagram"></i></a>
+                    <!-- Social Icons (Desktop) -->
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">𝕏</a>
+                        <a href="#" aria-label="Instagram">📷</a>
                     </div>
                     
-                    <!-- External Links -->
-                    <a href="#" class="hidden md:inline-block px-4 py-2 rounded-full text-white text-sm font-medium transition hover:opacity-90" style="background-color: var(--cyan);">
-                        Donate
-                    </a>
-                    <a href="#" class="hidden md:inline-block px-4 py-2 rounded-full text-white text-sm font-medium transition hover:opacity-90" style="background-color: var(--lime);">
-                        Shop
-                    </a>
+                    <!-- External Links (Desktop) -->
+                    <div class="desktop-buttons">
+                        <a href="#" class="btn btn-donate">Donate</a>
+                        <a href="#" class="btn btn-shop">Shop</a>
+                    </div>
                     
                     <!-- Mobile Menu Button -->
-                    <button id="mobile-menu-button" class="md:hidden text-gray-700">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
                 </div>
             </div>
             
             <!-- Main Navigation (Desktop) -->
-            <nav class="desktop-nav py-4">
-                <ul class="flex items-center justify-center space-x-8 text-sm font-medium" style="color: var(--dark-green);">
-                    <li><a href="#" class="nav-link">Visit</a></li>
-                    <li><a href="#" class="nav-link">Events & Programs</a></li>
-                    <li><a href="#" class="nav-link">Gardens & Trails</a></li>
-                    <li><a href="#" class="nav-link">Learn</a></li>
-                    <li><a href="#" class="nav-link">Get Involved</a></li>
-                    <li><a href="#" class="nav-link">About</a></li>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Visit</a></li>
+                    <li><a href="#">Events & Programs</a></li>
+                    <li><a href="#">Gardens & Trails</a></li>
+                    <li><a href="#">Learn</a></li>
+                    <li><a href="#">Get Involved</a></li>
+                    <li><a href="#">About</a></li>
                 </ul>
             </nav>
             
             <!-- Mobile Navigation -->
-            <nav id="mobile-menu" class="mobile-menu pb-4">
-                <ul class="space-y-3 text-sm font-medium" style="color: var(--dark-green);">
-                    <li><a href="#" class="block py-2">Visit</a></li>
-                    <li><a href="#" class="block py-2">Events & Programs</a></li>
-                    <li><a href="#" class="block py-2">Gardens & Trails</a></li>
-                    <li><a href="#" class="block py-2">Learn</a></li>
-                    <li><a href="#" class="block py-2">Get Involved</a></li>
-                    <li><a href="#" class="block py-2">About</a></li>
-                    <li class="pt-3 border-t border-gray-200">
-                        <a href="#" class="block py-2 text-center rounded-full text-white font-medium mb-2" style="background-color: var(--cyan);">Donate</a>
-                        <a href="#" class="block py-2 text-center rounded-full text-white font-medium" style="background-color: var(--lime);">Shop</a>
-                    </li>
+            <nav class="mobile-nav" id="mobileNav">
+                <ul>
+                    <li><a href="#">Visit</a></li>
+                    <li><a href="#">Events & Programs</a></li>
+                    <li><a href="#">Gardens & Trails</a></li>
+                    <li><a href="#">Learn</a></li>
+                    <li><a href="#">Get Involved</a></li>
+                    <li><a href="#">About</a></li>
                 </ul>
+                <div class="mobile-buttons">
+                    <a href="#" class="btn btn-donate">Donate</a>
+                    <a href="#" class="btn btn-shop">Shop</a>
+                </div>
             </nav>
         </div>
     </header>
     
     <!-- Hero Section -->
-    <section class="hero-section flex items-center justify-center text-center px-4">
-        <div class="max-w-3xl">
-            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
-                Connecting Plants, People & Place
-            </h2>
-            <p class="text-xl text-white mb-8 opacity-95">
-                Explore native plants, discover nature, and join us in conservation
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#" class="px-8 py-3 rounded-full text-white font-medium text-lg transition hover:opacity-90" style="background-color: var(--teal);">
-                    Plan Your Visit
-                </a>
-                <a href="#" class="px-8 py-3 rounded-full font-medium text-lg transition border-2 border-white text-white hover:bg-white" style="hover:color: var(--dark-green);">
-                    Become a Member
-                </a>
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Connecting Plants, People & Place</h2>
+            <p>Explore native plants, discover nature, and join us in conservation</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Plan Your Visit</a>
+                <a href="#" class="btn btn-secondary">Become a Member</a>
             </div>
         </div>
     </section>
     
     <!-- Highlighted Opportunities -->
-    <section class="py-16 px-4" style="background-color: var(--cream);">
-        <div class="max-w-7xl mx-auto">
-            <h3 class="text-3xl font-bold text-center mb-12" style="color: var(--dark-green);">
-                Explore & Support
-            </h3>
-            <div class="grid md:grid-cols-3 gap-8">
+    <section class="bg-cream">
+        <div class="container">
+            <h3 style="text-align: center; font-size: 32px; color: var(--dark-green); margin-bottom: 40px;">Explore & Support</h3>
+            <div class="grid grid-3">
                 <!-- Venus Flytrap Plate -->
-                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
-                    <div class="h-48 flex items-center justify-center" style="background-color: var(--light-teal);">
-                        <i class="fas fa-car text-6xl text-white"></i>
+                <div class="card">
+                    <div class="card-image bg-light-teal">
+                        <span class="icon-car"></span>
                     </div>
-                    <div class="p-6">
-                        <h4 class="text-xl font-bold mb-2" style="color: var(--purple);">Venus Flytrap License Plate</h4>
-                        <p class="text-gray-700 mb-4">Support plant conservation in North Carolina with the Home of the Venus Flytrap specialty plate. Every purchase helps protect our native flora.</p>
-                        <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">Learn More →</a>
+                    <div class="card-content">
+                        <h4>Venus Flytrap License Plate</h4>
+                        <p>Support plant conservation in North Carolina with the Home of the Venus Flytrap specialty plate. Every purchase helps protect our native flora.</p>
+                        <a href="#">Learn More →</a>
                     </div>
                 </div>
                 
                 <!-- FloraQuest Apps -->
-                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
-                    <div class="h-48 flex items-center justify-center" style="background-color: var(--lime);">
-                        <i class="fas fa-mobile-alt text-6xl text-white"></i>
+                <div class="card">
+                    <div class="card-image bg-lime">
+                        <span class="icon-mobile"></span>
                     </div>
-                    <div class="p-6">
-                        <h4 class="text-xl font-bold mb-2" style="color: var(--purple);">FloraQuest Apps</h4>
-                        <p class="text-gray-700 mb-4">Identify and discover plants across 19 states with our suite of mobile apps. Perfect for nature enthusiasts and plant lovers alike.</p>
-                        <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">Download Now →</a>
+                    <div class="card-content">
+                        <h4>FloraQuest Apps</h4>
+                        <p>Identify and discover plants across 19 states with our suite of mobile apps. Perfect for nature enthusiasts and plant lovers alike.</p>
+                        <a href="#">Download Now →</a>
                     </div>
                 </div>
                 
                 <!-- Garden Shop -->
-                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
-                    <div class="h-48 flex items-center justify-center" style="background-color: var(--sage);">
-                        <i class="fas fa-shopping-bag text-6xl" style="color: var(--dark-green);"></i>
+                <div class="card">
+                    <div class="card-image bg-sage">
+                        <span class="icon-shop" style="color: var(--dark-green);"></span>
                     </div>
-                    <div class="p-6">
-                        <h4 class="text-xl font-bold mb-2" style="color: var(--purple);">Garden Shop</h4>
-                        <p class="text-gray-700 mb-4">Browse native plants, gardening supplies, books, and unique gifts. Shop online and support the Garden's mission.</p>
-                        <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">Shop Online →</a>
+                    <div class="card-content">
+                        <h4>Garden Shop</h4>
+                        <p>Browse native plants, gardening supplies, books, and unique gifts. Shop online and support the Garden's mission.</p>
+                        <a href="#">Shop Online →</a>
                     </div>
                 </div>
             </div>
@@ -209,153 +807,139 @@
     </section>
     
     <!-- Upcoming Events -->
-    <section class="py-16 px-4 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-3xl font-bold" style="color: var(--dark-green);">Upcoming Events</h3>
-                <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">View All Events →</a>
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h3>Upcoming Events</h3>
+                <a href="#">View All Events →</a>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-3">
                 <!-- Event 1 -->
-                <div class="card border rounded-lg overflow-hidden" style="border-color: var(--light-teal);">
-                    <div class="p-6">
-                        <div class="text-sm font-medium mb-2" style="color: var(--cyan);">October 18, 2025</div>
-                        <h4 class="text-xl font-bold mb-3" style="color: var(--purple);">NatureFest – For Families! 🍂</h4>
-                        <p class="text-gray-700 mb-4">Join us for a day of outdoor fun, learning, and exploration. Perfect for children and families to connect with nature.</p>
-                        <span class="text-xs px-3 py-1 rounded-full" style="background-color: var(--sage); color: var(--dark-green);">Family Event</span>
-                    </div>
+                <div class="event-card card">
+                    <div class="event-date">October 18, 2025</div>
+                    <h4>NatureFest – For Families! 🍂</h4>
+                    <p>Join us for a day of outdoor fun, learning, and exploration. Perfect for children and families to connect with nature.</p>
+                    <span class="event-tag">Family Event</span>
                 </div>
                 
                 <!-- Event 2 -->
-                <div class="card border rounded-lg overflow-hidden" style="border-color: var(--light-teal);">
-                    <div class="p-6">
-                        <div class="text-sm font-medium mb-2" style="color: var(--cyan);">Through December 7</div>
-                        <h4 class="text-xl font-bold mb-3" style="color: var(--purple);">37th Annual Sculpture in the Garden</h4>
-                        <p class="text-gray-700 mb-4">Experience art in nature with our annual sculpture exhibition. Free admission during regular Garden hours.</p>
-                        <span class="text-xs px-3 py-1 rounded-full" style="background-color: var(--sage); color: var(--dark-green);">Exhibition</span>
-                    </div>
+                <div class="event-card card">
+                    <div class="event-date">Through December 7</div>
+                    <h4>37th Annual Sculpture in the Garden</h4>
+                    <p>Experience art in nature with our annual sculpture exhibition. Free admission during regular Garden hours.</p>
+                    <span class="event-tag">Exhibition</span>
                 </div>
                 
                 <!-- Event 3 -->
-                <div class="card border rounded-lg overflow-hidden" style="border-color: var(--light-teal);">
-                    <div class="p-6">
-                        <div class="text-sm font-medium mb-2" style="color: var(--cyan);">October 25, 2025</div>
-                        <h4 class="text-xl font-bold mb-3" style="color: var(--purple);">Native Plant Workshop</h4>
-                        <p class="text-gray-700 mb-4">Learn how to design and maintain a beautiful native plant garden that supports local wildlife and conserves water.</p>
-                        <span class="text-xs px-3 py-1 rounded-full" style="background-color: var(--sage); color: var(--dark-green);">Workshop</span>
-                    </div>
+                <div class="event-card card">
+                    <div class="event-date">October 25, 2025</div>
+                    <h4>Native Plant Workshop</h4>
+                    <p>Learn how to design and maintain a beautiful native plant garden that supports local wildlife and conserves water.</p>
+                    <span class="event-tag">Workshop</span>
                 </div>
             </div>
         </div>
     </section>
     
     <!-- Latest News -->
-    <section class="py-16 px-4" style="background-color: var(--sage);">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex items-center justify-between mb-8">
-                <h3 class="text-3xl font-bold" style="color: var(--dark-green);">Latest News</h3>
-                <a href="#" class="text-sm font-medium hover:underline" style="color: var(--teal);">Read More News →</a>
+    <section class="bg-sage">
+        <div class="container">
+            <div class="section-header">
+                <h3>Latest News</h3>
+                <a href="#" style="color: var(--teal);">Read More News →</a>
             </div>
-            <div class="grid md:grid-cols-2 gap-8">
+            <div class="grid grid-2">
                 <!-- News Item 1 -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-md card">
-                    <div class="p-6">
-                        <div class="text-xs font-medium mb-2" style="color: var(--cyan);">September 28, 2025</div>
-                        <h4 class="text-2xl font-bold mb-3" style="color: var(--purple);">FloraQuest: South-Central Now Available</h4>
-                        <p class="text-gray-700 mb-4">Great news for botanists in Tennessee, Mississippi, and Alabama! Our newest FloraQuest app covering the south-central region is now available for download.</p>
-                        <a href="#" class="inline-block text-sm font-medium hover:underline" style="color: var(--teal);">Read More →</a>
-                    </div>
+                <div class="news-card card">
+                    <div class="news-date">September 28, 2025</div>
+                    <h4>FloraQuest: South-Central Now Available</h4>
+                    <p>Great news for botanists in Tennessee, Mississippi, and Alabama! Our newest FloraQuest app covering the south-central region is now available for download.</p>
+                    <a href="#">Read More →</a>
                 </div>
                 
                 <!-- News Item 2 -->
-                <div class="bg-white rounded-lg overflow-hidden shadow-md card">
-                    <div class="p-6">
-                        <div class="text-xs font-medium mb-2" style="color: var(--cyan);">September 15, 2025</div>
-                        <h4 class="text-2xl font-bold mb-3" style="color: var(--purple);">Conservation Milestone: 1,000 Acres Protected</h4>
-                        <p class="text-gray-700 mb-4">Thanks to the support of our members and donors, we've reached a significant milestone in protecting native plant habitats across North Carolina.</p>
-                        <a href="#" class="inline-block text-sm font-medium hover:underline" style="color: var(--teal);">Read More →</a>
-                    </div>
+                <div class="news-card card">
+                    <div class="news-date">September 15, 2025</div>
+                    <h4>Conservation Milestone: 1,000 Acres Protected</h4>
+                    <p>Thanks to the support of our members and donors, we've reached a significant milestone in protecting native plant habitats across North Carolina.</p>
+                    <a href="#">Read More →</a>
                 </div>
             </div>
         </div>
     </section>
     
     <!-- Call to Action -->
-    <section class="py-16 px-4 text-center text-white" style="background-color: var(--teal);">
-        <div class="max-w-3xl mx-auto">
-            <h3 class="text-3xl font-bold mb-4">Join Our Community</h3>
-            <p class="text-lg mb-8 opacity-95">Support native plant conservation and enjoy exclusive member benefits, including free programs, discounts, and special events.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#" class="px-8 py-3 bg-white rounded-full font-medium text-lg transition hover:opacity-90" style="color: var(--teal);">
-                    Become a Member
-                </a>
-                <a href="#" class="px-8 py-3 rounded-full font-medium text-lg transition border-2 border-white hover:bg-white hover:text-teal-700">
-                    Make a Donation
-                </a>
+    <section class="cta-section bg-teal">
+        <div class="container">
+            <h3>Join Our Community</h3>
+            <p>Support native plant conservation and enjoy exclusive member benefits, including free programs, discounts, and special events.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-white">Become a Member</a>
+                <a href="#" class="btn btn-secondary">Make a Donation</a>
             </div>
         </div>
     </section>
     
     <!-- Footer -->
-    <footer class="py-12 px-4 text-white" style="background-color: var(--dark-green);">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
                 <!-- Contact Info -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Contact Us</h4>
-                    <p class="text-sm mb-2">North Carolina Botanical Garden</p>
-                    <p class="text-sm mb-2">UNC Campus, Chapel Hill, NC 27599</p>
-                    <p class="text-sm mb-2">Phone: (919) 962-0522</p>
-                    <p class="text-sm">Email: ncbg@unc.edu</p>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>North Carolina Botanical Garden</p>
+                    <p>UNC Campus, Chapel Hill, NC 27599</p>
+                    <p>Phone: (919) 962-0522</p>
+                    <p>Email: ncbg@unc.edu</p>
                 </div>
                 
                 <!-- Visit -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Visit</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:underline">Hours & Admission</a></li>
-                        <li><a href="#" class="hover:underline">Directions & Parking</a></li>
-                        <li><a href="#" class="hover:underline">Maps & Trails</a></li>
-                        <li><a href="#" class="hover:underline">Accessibility</a></li>
+                <div class="footer-section">
+                    <h4>Visit</h4>
+                    <ul>
+                        <li><a href="#">Hours & Admission</a></li>
+                        <li><a href="#">Directions & Parking</a></li>
+                        <li><a href="#">Maps & Trails</a></li>
+                        <li><a href="#">Accessibility</a></li>
                     </ul>
                 </div>
                 
                 <!-- Learn & Support -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Learn & Support</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:underline">Events & Programs</a></li>
-                        <li><a href="#" class="hover:underline">Native Plant Resources</a></li>
-                        <li><a href="#" class="hover:underline">Become a Member</a></li>
-                        <li><a href="#" class="hover:underline">Ways to Give</a></li>
-                        <li><a href="#" class="hover:underline">Volunteer</a></li>
+                <div class="footer-section">
+                    <h4>Learn & Support</h4>
+                    <ul>
+                        <li><a href="#">Events & Programs</a></li>
+                        <li><a href="#">Native Plant Resources</a></li>
+                        <li><a href="#">Become a Member</a></li>
+                        <li><a href="#">Ways to Give</a></li>
+                        <li><a href="#">Volunteer</a></li>
                     </ul>
                 </div>
                 
                 <!-- Connect -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Connect With Us</h4>
-                    <div class="flex space-x-4 mb-4">
-                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-facebook text-2xl"></i></a>
-                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-twitter text-2xl"></i></a>
-                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-instagram text-2xl"></i></a>
-                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-youtube text-2xl"></i></a>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">𝕏</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="YouTube">▶️</a>
                     </div>
-                    <p class="text-sm mb-4">Subscribe to our newsletter for updates on events, programs, and conservation news.</p>
-                    <div class="flex">
-                        <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 text-sm rounded-l-full text-gray-800 outline-none">
-                        <button class="px-4 py-2 rounded-r-full text-sm font-medium" style="background-color: var(--cyan);">Subscribe</button>
-                    </div>
+                    <p>Subscribe to our newsletter for updates on events, programs, and conservation news.</p>
+                    <form class="newsletter-form" onsubmit="return false;">
+                        <input type="email" placeholder="Your email" aria-label="Email address">
+                        <button type="submit">Subscribe</button>
+                    </form>
                 </div>
             </div>
             
             <!-- Bottom Footer -->
-            <div class="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center text-sm">
-                <p class="mb-4 md:mb-0">&copy; 2025 North Carolina Botanical Garden. All rights reserved.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="hover:underline">Privacy Policy</a>
-                    <a href="#" class="hover:underline">Terms of Use</a>
-                    <a href="#" class="hover:underline">Accessibility</a>
+            <div class="footer-bottom">
+                <p>&copy; 2025 North Carolina Botanical Garden. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Accessibility</a>
                 </div>
             </div>
         </div>
@@ -363,12 +947,12 @@
     
     <script>
         // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('active');
-            const icon = this.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileNav.classList.toggle('active');
+            this.textContent = mobileNav.classList.contains('active') ? '✕' : '☰';
         });
         
         // Smooth scroll for anchor links
@@ -377,9 +961,12 @@
                 const href = this.getAttribute('href');
                 if (href !== '#') {
                     e.preventDefault();
-                    document.querySelector(href).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         });
