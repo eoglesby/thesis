@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Carolina Botanical Garden - Prototype</title>
+
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Embedded CSS for Styling - NO EXTERNAL CDN DEPENDENCY -->
+    <style>
+        /* CSS Variables based on Garden Palette */
+        :root {
+            --color-dark-green: #15322d;
+            --color-teal: #016b5c;
+            --color-sage: #6ca399;
+            --color-cream: #ede1c7;
+            --color-khaki: #dcdeb1;
+            --color-plum: #583c5c;
+            --color-olive: #bfca7e;
+            --color-white: #ffffff;
+            --font-family: 'Inter', sans-serif;
+            --max-width: 1280px;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: var(--font-family);
+            background-color: var(--color-cream);
+            color: var(--color-dark-green);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* HEADER */
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background-color: var(--color-plum);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem; /* h-20 */
+        }
+        
+        .logo a {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 800;
+            color: var(--color-khaki);
+            text-decoration: none;
+        }
+        .logo span {
+            font-size: 0.875rem; /* text-base */
+            font-weight: 500;
+            display: block;
+            line-height: 1;
+        }
+
+        .nav-desktop {
+            display: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            gap: 1.5rem; /* lg:space-x-8 */
+        }
+        .nav-desktop a {
+            color: var(--color-cream);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-desktop a:hover {
+            color: var(--color-sage);
+        }
+        
+        .utility-section {
+            display: none;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background-color 0.3s;
+        }
+        .btn-donate {
+            background-color: var(--color-teal);
+            color: var(--color-khaki);
+        }
+        .btn-donate:hover {
+            background-color: var(--color-dark-green);
+        }
+        .btn-shop {
+            background-color: var(--color-olive);
+            color: var(--color-dark-green);
+        }
+        .btn-shop:hover {
+            background-color: var(--color-sage);
+        }
+        
+        /* HERO SECTION */
+        .hero-section {
+            position: relative;
+            height: 24rem; /* h-96 */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-background {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://placehold.co/1200x600/15322d/ede1c7?text=Inspiring+Plants+%26+Place');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.8;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(21, 50, 45, 0.3); /* Dark Green with Opacity */
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 64rem;
+            text-align: center;
+            padding: 1.5rem;
+            background-color: rgba(88, 60, 92, 0.7); /* Plum with Opacity */
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .hero-content h1 {
+            font-size: 2.25rem; /* text-4xl */
+            color: var(--color-khaki);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        .hero-content p {
+            font-size: 1.25rem; /* text-xl */
+            color: var(--color-cream);
+            font-weight: 500;
+        }
+        
+        /* OPPORTUNITIES SECTION */
+        .opportunities {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+        .opportunities h2 {
+            font-size: 2.25rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .opportunities-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: 1fr;
+        }
+
+        .opportunity-card {
+            background-color: var(--color-white);
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 1.5rem;
+            border-top: 8px solid;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .opportunity-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .card-plum { border-top-color: var(--color-plum); }
+        .card-teal { border-top-color: var(--color-teal); }
+        .card-olive { border-top-color: var(--color-olive); }
+
+        .opportunity-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .opportunity-card .icon {
+            font-size: 1.875rem;
+            margin-bottom: 0.75rem;
+        }
+        .opportunity-card a {
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .card-plum .icon, .card-plum a { color: var(--color-plum); }
+        .card-teal .icon, .card-teal a { color: var(--color-teal); }
+        .card-olive .icon, .card-olive a { color: var(--color-olive); }
+        .opportunity-card a:hover { text-decoration: underline; color: var(--color-dark-green); }
+
+
+        /* EVENTS SECTION */
+        .events-section {
+            background-color: var(--color-khaki);
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+        .events-section h2 {
+            font-size: 2.25rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .events-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: 1fr;
+        }
+        .event-card {
+            background-color: var(--color-white);
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+        .event-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .event-card-image {
+            height: 12rem;
+            background-size: cover;
+            background-position: center;
+        }
+        .event-card-body {
+            padding: 1.25rem;
+        }
+        .event-card-body .date {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-teal);
+            margin-bottom: 0.25rem;
+        }
+        .event-card-body h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .event-card-body .desc {
+            font-size: 0.875rem;
+            color: #4b5563; /* Placeholder for gray-600 */
+        }
+        .event-card-body a {
+            margin-top: 1rem;
+            display: inline-block;
+            color: var(--color-plum);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .event-card-body a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* NEWS & KNOWLEDGE SECTION */
+        .news-knowledge {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+        .news-knowledge h2 {
+            font-size: 2.25rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .news-grid {
+            display: grid;
+            gap: 3rem;
+            grid-template-columns: 1fr;
+            align-items: flex-start;
+        }
+        .news-latest h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-sage);
+            padding-bottom: 0.5rem;
+            color: var(--color-plum);
+        }
+        .news-item {
+            padding: 1rem;
+            background-color: var(--color-white);
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        .news-item:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .news-item .date {
+            font-size: 0.875rem;
+            color: #6b7280; /* Placeholder for gray-500 */
+            margin-bottom: 0.25rem;
+        }
+        .news-item a {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-dark-green);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+        .news-item a:hover {
+            color: var(--color-teal);
+        }
+        .news-item p {
+            font-size: 0.875rem;
+            color: #4b5563; /* Placeholder for gray-600 */
+            /* line-clamp-2 is hard to do in pure CSS, but we can manage height */
+            max-height: 2.5em; 
+            overflow: hidden;
+        }
+        .view-all-news {
+            text-align: center;
+            padding-top: 1rem;
+        }
+        .view-all-news a {
+            color: var(--color-plum);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .view-all-news a:hover {
+            text-decoration: underline;
+        }
+
+        .knowledge-featured {
+            background-color: var(--color-sage);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .knowledge-featured h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .knowledge-featured h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .knowledge-featured img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .knowledge-featured p {
+            color: var(--color-dark-green);
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        .knowledge-featured a {
+            display: inline-block;
+            background-color: var(--color-olive);
+            color: var(--color-dark-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .knowledge-featured a:hover {
+            background-color: var(--color-teal);
+            color: var(--color-white);
+        }
+
+
+        /* FOOTER */
+        .main-footer {
+            background-color: var(--color-plum);
+            color: var(--color-cream);
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            font-size: 0.875rem;
+        }
+        .footer-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: 1fr;
+        }
+        .main-footer h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-khaki);
+            margin-bottom: 1rem;
+        }
+        .main-footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .main-footer a {
+            color: var(--color-cream);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .main-footer a:hover {
+            color: var(--color-sage);
+        }
+        .social-icons {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            color: var(--color-khaki);
+        }
+        .footer-bottom {
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(108, 163, 153, 0.3); /* sage/30 */
+            text-align: center;
+            font-size: 0.75rem;
+        }
+        .footer-bottom span {
+            display: inline-block;
+            margin: 0 0.5rem;
+        }
+        
+
+        /* Mobile Menu (Pure CSS/JS logic) */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            background-color: rgba(88, 60, 92, 0.95); /* Plum with opacity */
+            display: none; /* Controlled by JS */
+            transition: opacity 0.3s;
+        }
+        .mobile-menu-overlay.open {
+            display: block;
+        }
+        .mobile-menu-content {
+            padding: 1.5rem;
+        }
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.875rem;
+            color: var(--color-cream);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .nav-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-top: 4rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .nav-mobile a {
+            color: var(--color-cream);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-mobile a:hover {
+            color: var(--color-sage);
+        }
+        .mobile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--color-sage);
+            margin-top: 1.5rem;
+        }
+        .mobile-actions a {
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--color-khaki);
+        }
+        .mobile-actions .btn-donate {
+            background-color: var(--color-teal);
+        }
+        .mobile-actions .btn-shop {
+            background-color: var(--color-olive);
+        }
+        .menu-open-btn {
+            font-size: 1.875rem;
+            color: var(--color-cream);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* MEDIA QUERIES for Responsiveness */
+        /* Tablet (md: breakpoint) */
+        @media (min-width: 768px) {
+            .nav-desktop { display: flex; }
+            .utility-section { display: flex; }
+            .menu-open-btn { display: none; }
+            .opportunities-grid { grid-template-columns: repeat(3, 1fr); }
+            .events-grid { grid-template-columns: repeat(3, 1fr); }
+            .footer-grid { grid-template-columns: repeat(4, 1fr); }
+            .search-bar { display: none; }
+        }
+
+        /* Desktop (lg: breakpoint) */
+        @media (min-width: 1024px) {
+            .hero-section { height: 31.25rem; /* 500px */ }
+            .hero-content h1 { font-size: 3.75rem; } /* text-6xl */
+            .hero-content p { font-size: 1.5rem; } /* text-2xl */
+            .search-bar { display: block; position: relative; }
+            .social-icons-desktop { display: flex; }
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid > div:last-child { grid-column: span 1 / span 1; }
+        }
+        
+        /* Utility styles for specific components (Search Bar/Social Icons) */
+        .search-bar-input {
+            width: 8rem; /* w-32 */
+            padding: 0.25rem 0.75rem;
+            padding-right: 2rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            color: var(--color-dark-green);
+            background-color: var(--color-khaki);
+            border: none;
+            outline: none;
+        }
+        .search-bar-input:focus {
+            box-shadow: 0 0 0 2px var(--color-teal);
+        }
+        .search-icon {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-dark-green);
+            font-size: 0.875rem;
+            pointer-events: none;
+        }
+        .social-icons-desktop {
+            display: none; /* Hidden on mobile/tablet, shown on large desktop by media query */
+        }
+        .social-icons-desktop a {
+            color: var(--color-khaki);
+            font-size: 1.25rem;
+            transition: color 0.3s;
+        }
+        .social-icons-desktop a:hover {
+            color: var(--color-sage);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+            <button id="close-menu-btn" class="close-btn">&times;</button>
+            <nav class="nav-mobile">
+                <a href="#">Plan Your Visit</a>
+                <a href="#">Learn & Programs</a>
+                <a href="#">Conservation</a>
+                <a href="#">Plants & Gardens</a>
+                <a href="#">About Us</a>
+            </nav>
+            <div class="mobile-actions">
+                <a href="#" class="btn-donate">GIVE NOW (Donation)</a>
+                <a href="#" class="btn-shop">Shop Online</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER: Logo, Navigation, Search, Social, Action Links -->
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo/Branding -->
+                <div class="logo">
+                    <a href="#">
+                        NCBG
+                        <span>Botanical Garden</span>
+                    </a>
+                </div>
+
+                <!-- Main Menu (Desktop) -->
+                <nav class="nav-desktop">
+                    <a href="#">Plan Your Visit</a>
+                    <a href="#">Learn & Programs</a>
+                    <a href="#">Conservation</a>
+                    <a href="#">Plants & Gardens</a>
+                    <a href="#">About Us</a>
+                </nav>
+
+                <!-- Utility Section (Desktop) -->
+                <div class="utility-section">
+                    <!-- Search Bar -->
+                    <div class="search-bar">
+                        <input type="search" placeholder="Search..." class="search-bar-input">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    
+                    <!-- Social Icons (Placeholders) -->
+                    <div class="social-icons-desktop">
+                        <a href="#">📘</a>
+                        <a href="#">📸</a>
+                        <a href="#">🐦</a>
+                    </div>
+                    
+                    <!-- External Links (Action Buttons) -->
+                    <a href="#" class="action-btn btn-donate">GIVE NOW</a>
+                    <a href="#" class="action-btn btn-shop">Shop Online</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="open-menu-btn" class="menu-open-btn">
+                    &#9776; <!-- Hamburger Icon -->
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION: Banner Image & Headline -->
+        <section class="hero-section">
+            <div class="hero-background"></div>
+            <div class="hero-overlay"></div> 
+            
+            <div class="hero-content">
+                <h1>
+                    Fostering Connections Between Plants, People, and Place
+                </h1>
+                <p>
+                    Explore nature, plan your visit, and support conservation right here in North Carolina.
+                </p>
+            </div>
+        </section>
+
+        <!-- INTRO & KEY OPPORTUNITIES SECTION -->
+        <section class="opportunities container">
+            <h2>Discover the Garden</h2>
+
+            <!-- Opportunity Highlights -->
+            <div class="opportunities-grid">
+                <!-- Highlight 1: Venus Flytrap Plate -->
+                <div class="opportunity-card card-plum">
+                    <div class="icon" style="color: var(--color-plum);">⭐</div>
+                    <h3>Home of the Venus Flytrap</h3>
+                    <p style="color: #4b5563; /* gray-600 */">Support plant conservation in North Carolina by purchasing the specialty license plate. Proceeds directly fund critical work.</p>
+                    <a href="#" style="color: var(--color-plum);">
+                        Get Your Plate 
+                        <span style="display: inline-block;">→</span>
+                    </a>
+                </div>
+
+                <!-- Highlight 2: FloraQuest Apps -->
+                <div class="opportunity-card card-teal">
+                    <div class="icon" style="color: var(--color-teal);">📱</div>
+                    <h3>FloraQuest Mobile Apps</h3>
+                    <p style="color: #4b5563; /* gray-600 */">A powerful suite of plant identification and discovery apps covering 19 states. Take your knowledge on the go!</p>
+                    <a href="#" style="color: var(--color-teal);">
+                        Explore the Apps
+                        <span style="display: inline-block;">→</span>
+                    </a>
+                </div>
+
+                <!-- Highlight 3: Online Garden Shop -->
+                <div class="opportunity-card card-olive">
+                    <div class="icon" style="color: var(--color-olive);">🛍️</div>
+                    <h3>Online Garden Shop</h3>
+                    <p style="color: #4b5563; /* gray-600 */">Find native plants, books, and gifts that celebrate the botanical world. Shop local and support the Garden.</p>
+                    <a href="#" style="color: var(--color-olive);">
+                        Visit the Shop
+                        <span style="display: inline-block;">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPCOMING EVENTS SECTION -->
+        <section class="events-section">
+            <div class="container">
+                <h2>Upcoming Events</h2>
+                
+                <div class="events-grid">
+                    <!-- Event Card 1 -->
+                    <div class="event-card">
+                        <div class="event-card-image" style="background-image: url('https://placehold.co/600x400/6ca399/15322d?text=Native+Plant+Sale');"></div>
+                        <div class="event-card-body">
+                            <p class="date">Saturday, Oct 28</p>
+                            <h3>Fall Native Plant Sale</h3>
+                            <p class="desc">Find the perfect native species for your garden with expert advice from our horticulturists.</p>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 2 -->
+                    <div class="event-card">
+                        <div class="event-card-image" style="background-image: url('https://placehold.co/600x400/bfca7e/15322d?text=Guided+Tour');"></div>
+                        <div class="event-card-body">
+                            <p class="date">Wednesday, Nov 1</p>
+                            <h3>Wetlands Area Guided Tour</h3>
+                            <p class="desc">Discover the unique biodiversity and ecological importance of our restored wetland habitats.</p>
+                            <a href="#">Register Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="event-card">
+                        <div class="event-card-image" style="background-image: url('https://placehold.co/600x400/583c5c/ede1c7?text=Kids+Program');"></div>
+                        <div class="event-card-body">
+                            <p class="date">Saturday, Nov 11</p>
+                            <h3>Kids' Botany Workshop: Seeds!</h3>
+                            <p class="desc">A hands-on workshop for young naturalists to explore the amazing world of plant reproduction.</p>
+                            <a href="#">View All Programs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- NEWS & KNOWLEDGE SECTION (Native Plant Gardening Focus) -->
+        <section class="news-knowledge container">
+            <h2>News & Native Plant Knowledge</h2>
+            
+            <div class="news-grid">
+                
+                <!-- Latest News Column -->
+                <div class="news-latest">
+                    <h3>Latest News</h3>
+                    <div class="space-y-6">
+                        <!-- News Item 1 -->
+                        <article class="news-item">
+                            <p class="date">October 15, 2025</p>
+                            <a href="#">
+                                Garden Receives Major Grant for Longleaf Pine Restoration
+                            </a>
+                            <p>The National Endowment for Native Plants has awarded the NCBG funds to expand conservation efforts across 300 acres...</p>
+                        </article>
+
+                        <!-- News Item 2 -->
+                        <article class="news-item">
+                            <p class="date">October 8, 2025</p>
+                            <a href="#">
+                                Announcing the New Director of Education and Outreach
+                            </a>
+                            <p>We are thrilled to welcome Dr. Eliza Chen to lead our public programming and school group initiatives...</p>
+                        </article>
+                        
+                        <!-- News Item 3 -->
+                        <article class="news-item">
+                            <p class="date">September 29, 2025</p>
+                            <a href="#">
+                                What's Blooming Now: The Autumn Highlights
+                            </a>
+                            <p>A guide to the most vibrant native flowers and changing foliage you can find in the gardens this month...</p>
+                        </article>
+                        
+                        <div class="view-all-news">
+                            <a href="#">View All News</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Knowledge/Blog Post -->
+                <div class="knowledge-featured">
+                    <h3>Featured Article: Native Gardening</h3>
+                    <img src="https://placehold.co/800x450/016b5c/ede1c7?text=Native+Plant+Identification" alt="Illustration of a native flower">
+                    <h4>Understanding Soil pH for Southeastern Native Plants</h4>
+                    <p>
+                        A knowledgeable, friendly guide to balancing the soil chemistry for a thriving native landscape. Learn why certain plants prefer acidic or alkaline conditions and how to test your yard.
+                    </p>
+                    <a href="#">
+                        Read the Guide
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER: Contact, Links, Copyright -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <!-- Column 1: Contact Information -->
+                <div>
+                    <h4>Visit Us</h4>
+                    <p style="margin-bottom: 0.5rem;">
+                        100 Old Mason Farm Rd.<br>
+                        Chapel Hill, NC 27517
+                    </p>
+                    <p style="margin-bottom: 0.5rem;">
+                        (919) 962-0522
+                    </p>
+                    <p>
+                        <a href="mailto:info@ncbg.unc.edu">info@ncbg.unc.edu</a>
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Directions & Hours</a></li>
+                        <li><a href="#">Become a Member</a></li>
+                        <li><a href="#">Facility Rentals</a></li>
+                        <li><a href="#">Staff Directory</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Resources -->
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Native Plant Database</a></li>
+                        <li><a href="#">Research & Publications</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">Employment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Mission & Social -->
+                <div>
+                    <h4>Our Mission</h4>
+                    <p style="margin-bottom: 1rem;">
+                        Fostering connections between plants, people, and place through conservation, education, and research.
+                    </p>
+                    <!-- Social Icons in Footer -->
+                    <div class="social-icons">
+                        <a href="#">📘</a>
+                        <a href="#">📸</a>
+                        <a href="#">🐦</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright and Accessibility -->
+            <div class="footer-bottom">
+                &copy; 2025 North Carolina Botanical Garden. All rights reserved. 
+                <span>|</span> 
+                <a href="#">Privacy Policy</a>
+                <span>|</span>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const openBtn = document.getElementById('open-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        openBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        });
+        
+        // Close menu if a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>
+
