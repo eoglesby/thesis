@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Carolina Botanical Garden</title>
+    <style>
+        :root {
+            --primary-green: #016b5c;
+            --accent-cyan: #00bcd3;
+            --light-beige: #dcdeb1;
+            --neutral-beige: #ede1c7;
+            --dark-green: #15322d;
+            --purple: #583c5c;
+            --mint-green: #6ca399;
+            --yellow-green: #bfca7e;
+            --white: #ffffff;
+            --text-dark: #333333;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+        .header {
+            background: var(--primary-green);
+            color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+        .nav {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav a:hover {
+            color: var(--accent-cyan);
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .search-bar input {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+        }
+        .social-icons, .external-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .social-icons a, .external-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        .hero {
+            position: relative;
+            height: 60vh;
+            background-image: url('https://ncbg.unc.edu/wp-content/uploads/sites/963/2020/02/10055_JA_NCBotanicalGarden0627-sm-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+        }
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section:nth-child(even) {
+            background: var(--light-beige);
+        }
+        .section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-green);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+        .cta {
+            display: inline-block;
+            background: var(--accent-cyan);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        .footer {
+            background: var(--dark-green);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer a {
+            color: var(--mint-green);
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="https://ncbg.unc.edu/wp-content/themes/unc-botanical-garden-theme/img/logo-footer.svg" alt="North Carolina Botanical Garden Logo">
+        </div>
+        <nav>
+            <ul class="nav">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#visit">Visit</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#shop">Shop</a></li>
+                <li><a href="#support">Support</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <div class="search-bar">
+                <input type="search" placeholder="Search...">
+            </div>
+            <div class="social-icons">
+                <a href="#">📘</a>
+                <a href="#">🐦</a>
+                <a href="#">📷</a>
+            </div>
+            <div class="external-links">
+                <a href="https://example.com/donate">Donate</a>
+                <a href="https://example.com/shop">Shop</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fostering Connections Between Plants, People, and Place</h1>
+            <p>Discover the wonder of native plants in our free public garden. Plan your visit, join an event, or learn about conservation today.</p>
+            <a href="#visit" class="cta">Plan Your Visit</a>
+        </div>
+    </section>
+
+    <section id="events" class="section">
+        <h2>Upcoming Events</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>NatureFest – for families!</h3>
+                <p>October 18, 1-4 p.m. A day of outdoor fun, learning, and exploration for the whole family.</p>
+                <a href="#" class="cta">Learn More</a>
+            </div>
+            <div class="card">
+                <h3>37th Annual Sculpture in the Garden</h3>
+                <p>September 14 – December 7. Free and open to the public during Garden hours.</p>
+                <a href="#" class="cta">View Exhibits</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="news" class="section">
+        <h2>Latest News</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Out Now: FloraQuest: South-Central</h3>
+                <p>A new app for botanists in Tennessee, Mississippi, or Alabama to identify plants on the go.</p>
+                <a href="#" class="cta">Download App</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="programs" class="section">
+        <h2>Key Programs & Opportunities</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Home of the Venus Flytrap License Plate</h3>
+                <p>Order this specialty plate to support plant conservation in North Carolina.</p>
+                <a href="https://www.ncdot.gov/dmv/license-plates/specialty/Pages/venus-flytrap.aspx" class="cta">Order Now</a>
+            </div>
+            <div class="card">
+                <h3>FloraQuest Apps</h3>
+                <p>Suite of mobile apps for plant identification across 19 states.</p>
+                <a href="#" class="cta">Explore Apps</a>
+            </div>
+            <div class="card">
+                <h3>Online Garden Shop</h3>
+                <p>Shop for native plants and gardening supplies.</p>
+                <a href="https://example.com/shop" class="cta">Visit Shop</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="footer">
+        <div class="footer-grid">
+            <div>
+                <h4>Contact Us</h4>
+                <p>North Carolina Botanical Garden<br>
+                UNC Chapel Hill, NC 27599<br>
+                Phone: (919) 962-0522<br>
+                Email: ncbg@unc.edu</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Membership</a></li>
+                    <li><a href="#">Donate</a></li>
+                    <li><a href="#">Volunteer</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#">Native Plants</a></li>
+                    <li><a href="#">Conservation</a></li>
+                    <li><a href="#">Education</a></li>
+                </ul>
+            </div>
+        </div>
+        <p>&copy; 2025 North Carolina Botanical Garden. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
+
+
+
+

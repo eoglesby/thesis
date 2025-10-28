@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Carolina Botanical Garden</title>
+  <style>
+    :root {
+      --deep-purple: #583c5c;
+      --sage: #dcdeb1;
+      --forest: #15322d;
+      --teal: #016b5c;
+      --mint: #6ca399;
+      --cream: #ede1c7;
+      --aqua: #00bcd3;
+      --olive: #bfca7e;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--cream);
+      color: var(--forest);
+    }
+
+    header {
+      background-color: var(--deep-purple);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .search-social {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .search-social input {
+      padding: 0.3rem;
+    }
+
+    .hero {
+      background: url('https://ncbg.unc.edu/wp-content/uploads/2023/04/NCBG-spring-banner.jpg') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .hero h1 {
+      background-color: rgba(0, 0, 0, 0.5);
+      display: inline-block;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    section {
+      padding: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--teal);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid var(--mint);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    footer {
+      background-color: var(--forest);
+      color: white;
+      padding: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    footer a {
+      color: var(--aqua);
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      header, footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">NC Botanical Garden</div>
+    <nav>
+      <a href="#">Visit</a>
+      <a href="#">Programs</a>
+      <a href="#">Events</a>
+      <a href="#">Plants</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="search-social">
+      <input type="text" placeholder="Search..." />
+      <a href="https://www.facebook.com/ncbotanicalgarden">FB</a>
+      <a href="https://www.instagram.com/ncbotanicalgarden">IG</a>
+      <a href="https://ncbg.unc.edu/donate/">Donate</a>
+      <a href="https://shop.ncbg.unc.edu/">Shop</a>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>Connecting People, Plants & Place</h1>
+  </div>
+
+  <section>
+    <div class="section-title">Upcoming Events</div>
+    <div class="grid">
+      <div class="card">Fiddleheads: Preschool Nature Explorers – Oct 1</div>
+      <div class="card">The Wisdom of the Hive – Oct 1</div>
+      <div class="card">Arachnid Adventures Camp – Oct 2</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">News</div>
+    <div class="grid">
+      <div class="card">Sculpture in the Garden opens Sept 14</div>
+      <div class="card">Fall Plant Sale: Native Perennials</div>
+      <div class="card">FloraQuest: South-Central App Released</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">Featured Opportunities</div>
+    <div class="grid">
+      <div class="card">🌱 Venus Flytrap License Plate – Support Conservation</div>
+      <div class="card">📱 FloraQuest Apps – Explore Native Plants</div>
+      <div class="card">🛍️ Online Garden Shop – Gifts & Guides</div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <strong>Contact Us</strong><br />
+      100 Old Mason Farm Road<br />
+      Chapel Hill, NC 27517<br />
+      Phone: 919-962-0522
+    </div>
+    <div>
+      <strong>Quick Links</strong><br />
+      <a href="#">Accessibility</a><br />
+      <a href="#">Subscribe to eNewsletter</a><br />
+      <a href="#">Get Directions</a>
+    </div>
+    <div>
+      © 2025 North Carolina Botanical Garden<br />
+      Part of UNC-Chapel Hill
+    </div>
+  </footer>
+</body>
+</html>

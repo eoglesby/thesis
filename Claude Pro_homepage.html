@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Carolina Botanical Garden | Connecting Plants, People & Place</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --purple: #583c5c;
+            --sage: #dcdeb1;
+            --dark-green: #15322d;
+            --teal: #016b5c;
+            --light-teal: #6ca399;
+            --cream: #ede1c7;
+            --cyan: #00bcd3;
+            --lime: #bfca7e;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(21, 50, 45, 0.3), rgba(21, 50, 45, 0.3)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%2316b5c6" width="1200" height="600"/><path fill="%236ca399" d="M0,300 Q300,200 600,300 T1200,300 L1200,600 L0,600 Z"/><circle fill="%23bfca7e" cx="200" cy="150" r="80" opacity="0.3"/><circle fill="%23dcdeb1" cx="900" cy="200" r="100" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            min-height: 500px;
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .nav-link {
+            transition: color 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--cyan);
+        }
+        
+        .mobile-menu {
+            display: none;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Top Bar -->
+            <div class="flex items-center justify-between py-3 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <!-- Logo -->
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: var(--teal);">
+                            <i class="fas fa-leaf text-white text-xl"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h1 class="text-lg font-bold" style="color: var(--dark-green);">North Carolina</h1>
+                            <p class="text-sm" style="color: var(--purple);">Botanical Garden</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side: Search, Social, External Links -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar (Desktop) -->
+                    <div class="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2">
+                        <input type="search" placeholder="Search..." class="bg-transparent outline-none text-sm w-40">
+                        <i class="fas fa-search text-gray-500"></i>
+                    </div>
+                    
+                    <!-- Social Icons -->
+                    <div class="hidden sm:flex items-center space-x-3">
+                        <a href="#" class="text-gray-600 hover:text-blue-600 transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-blue-400 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-pink-600 transition"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    
+                    <!-- External Links -->
+                    <a href="#" class="hidden md:inline-block px-4 py-2 rounded-full text-white text-sm font-medium transition hover:opacity-90" style="background-color: var(--cyan);">
+                        Donate
+                    </a>
+                    <a href="#" class="hidden md:inline-block px-4 py-2 rounded-full text-white text-sm font-medium transition hover:opacity-90" style="background-color: var(--lime);">
+                        Shop
+                    </a>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Main Navigation (Desktop) -->
+            <nav class="desktop-nav py-4">
+                <ul class="flex items-center justify-center space-x-8 text-sm font-medium" style="color: var(--dark-green);">
+                    <li><a href="#" class="nav-link">Visit</a></li>
+                    <li><a href="#" class="nav-link">Events & Programs</a></li>
+                    <li><a href="#" class="nav-link">Gardens & Trails</a></li>
+                    <li><a href="#" class="nav-link">Learn</a></li>
+                    <li><a href="#" class="nav-link">Get Involved</a></li>
+                    <li><a href="#" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Navigation -->
+            <nav id="mobile-menu" class="mobile-menu pb-4">
+                <ul class="space-y-3 text-sm font-medium" style="color: var(--dark-green);">
+                    <li><a href="#" class="block py-2">Visit</a></li>
+                    <li><a href="#" class="block py-2">Events & Programs</a></li>
+                    <li><a href="#" class="block py-2">Gardens & Trails</a></li>
+                    <li><a href="#" class="block py-2">Learn</a></li>
+                    <li><a href="#" class="block py-2">Get Involved</a></li>
+                    <li><a href="#" class="block py-2">About</a></li>
+                    <li class="pt-3 border-t border-gray-200">
+                        <a href="#" class="block py-2 text-center rounded-full text-white font-medium mb-2" style="background-color: var(--cyan);">Donate</a>
+                        <a href="#" class="block py-2 text-center rounded-full text-white font-medium" style="background-color: var(--lime);">Shop</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero-section flex items-center justify-center text-center px-4">
+        <div class="max-w-3xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                Connecting Plants, People & Place
+            </h2>
+            <p class="text-xl text-white mb-8 opacity-95">
+                Explore native plants, discover nature, and join us in conservation
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#" class="px-8 py-3 rounded-full text-white font-medium text-lg transition hover:opacity-90" style="background-color: var(--teal);">
+                    Plan Your Visit
+                </a>
+                <a href="#" class="px-8 py-3 rounded-full font-medium text-lg transition border-2 border-white text-white hover:bg-white" style="hover:color: var(--dark-green);">
+                    Become a Member
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Highlighted Opportunities -->
+    <section class="py-16 px-4" style="background-color: var(--cream);">
+        <div class="max-w-7xl mx-auto">
+            <h3 class="text-3xl font-bold text-center mb-12" style="color: var(--dark-green);">
+                Explore & Support
+            </h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Venus Flytrap Plate -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+                    <div class="h-48 flex items-center justify-center" style="background-color: var(--light-teal);">
+                        <i class="fas fa-car text-6xl text-white"></i>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2" style="color: var(--purple);">Venus Flytrap License Plate</h4>
+                        <p class="text-gray-700 mb-4">Support plant conservation in North Carolina with the Home of the Venus Flytrap specialty plate. Every purchase helps protect our native flora.</p>
+                        <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">Learn More →</a>
+                    </div>
+                </div>
+                
+                <!-- FloraQuest Apps -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+                    <div class="h-48 flex items-center justify-center" style="background-color: var(--lime);">
+                        <i class="fas fa-mobile-alt text-6xl text-white"></i>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2" style="color: var(--purple);">FloraQuest Apps</h4>
+                        <p class="text-gray-700 mb-4">Identify and discover plants across 19 states with our suite of mobile apps. Perfect for nature enthusiasts and plant lovers alike.</p>
+                        <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">Download Now →</a>
+                    </div>
+                </div>
+                
+                <!-- Garden Shop -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+                    <div class="h-48 flex items-center justify-center" style="background-color: var(--sage);">
+                        <i class="fas fa-shopping-bag text-6xl" style="color: var(--dark-green);"></i>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2" style="color: var(--purple);">Garden Shop</h4>
+                        <p class="text-gray-700 mb-4">Browse native plants, gardening supplies, books, and unique gifts. Shop online and support the Garden's mission.</p>
+                        <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">Shop Online →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Upcoming Events -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-3xl font-bold" style="color: var(--dark-green);">Upcoming Events</h3>
+                <a href="#" class="text-sm font-medium hover:underline" style="color: var(--cyan);">View All Events →</a>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Event 1 -->
+                <div class="card border rounded-lg overflow-hidden" style="border-color: var(--light-teal);">
+                    <div class="p-6">
+                        <div class="text-sm font-medium mb-2" style="color: var(--cyan);">October 18, 2025</div>
+                        <h4 class="text-xl font-bold mb-3" style="color: var(--purple);">NatureFest – For Families! 🍂</h4>
+                        <p class="text-gray-700 mb-4">Join us for a day of outdoor fun, learning, and exploration. Perfect for children and families to connect with nature.</p>
+                        <span class="text-xs px-3 py-1 rounded-full" style="background-color: var(--sage); color: var(--dark-green);">Family Event</span>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="card border rounded-lg overflow-hidden" style="border-color: var(--light-teal);">
+                    <div class="p-6">
+                        <div class="text-sm font-medium mb-2" style="color: var(--cyan);">Through December 7</div>
+                        <h4 class="text-xl font-bold mb-3" style="color: var(--purple);">37th Annual Sculpture in the Garden</h4>
+                        <p class="text-gray-700 mb-4">Experience art in nature with our annual sculpture exhibition. Free admission during regular Garden hours.</p>
+                        <span class="text-xs px-3 py-1 rounded-full" style="background-color: var(--sage); color: var(--dark-green);">Exhibition</span>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="card border rounded-lg overflow-hidden" style="border-color: var(--light-teal);">
+                    <div class="p-6">
+                        <div class="text-sm font-medium mb-2" style="color: var(--cyan);">October 25, 2025</div>
+                        <h4 class="text-xl font-bold mb-3" style="color: var(--purple);">Native Plant Workshop</h4>
+                        <p class="text-gray-700 mb-4">Learn how to design and maintain a beautiful native plant garden that supports local wildlife and conserves water.</p>
+                        <span class="text-xs px-3 py-1 rounded-full" style="background-color: var(--sage); color: var(--dark-green);">Workshop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Latest News -->
+    <section class="py-16 px-4" style="background-color: var(--sage);">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-3xl font-bold" style="color: var(--dark-green);">Latest News</h3>
+                <a href="#" class="text-sm font-medium hover:underline" style="color: var(--teal);">Read More News →</a>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- News Item 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card">
+                    <div class="p-6">
+                        <div class="text-xs font-medium mb-2" style="color: var(--cyan);">September 28, 2025</div>
+                        <h4 class="text-2xl font-bold mb-3" style="color: var(--purple);">FloraQuest: South-Central Now Available</h4>
+                        <p class="text-gray-700 mb-4">Great news for botanists in Tennessee, Mississippi, and Alabama! Our newest FloraQuest app covering the south-central region is now available for download.</p>
+                        <a href="#" class="inline-block text-sm font-medium hover:underline" style="color: var(--teal);">Read More →</a>
+                    </div>
+                </div>
+                
+                <!-- News Item 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card">
+                    <div class="p-6">
+                        <div class="text-xs font-medium mb-2" style="color: var(--cyan);">September 15, 2025</div>
+                        <h4 class="text-2xl font-bold mb-3" style="color: var(--purple);">Conservation Milestone: 1,000 Acres Protected</h4>
+                        <p class="text-gray-700 mb-4">Thanks to the support of our members and donors, we've reached a significant milestone in protecting native plant habitats across North Carolina.</p>
+                        <a href="#" class="inline-block text-sm font-medium hover:underline" style="color: var(--teal);">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Call to Action -->
+    <section class="py-16 px-4 text-center text-white" style="background-color: var(--teal);">
+        <div class="max-w-3xl mx-auto">
+            <h3 class="text-3xl font-bold mb-4">Join Our Community</h3>
+            <p class="text-lg mb-8 opacity-95">Support native plant conservation and enjoy exclusive member benefits, including free programs, discounts, and special events.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#" class="px-8 py-3 bg-white rounded-full font-medium text-lg transition hover:opacity-90" style="color: var(--teal);">
+                    Become a Member
+                </a>
+                <a href="#" class="px-8 py-3 rounded-full font-medium text-lg transition border-2 border-white hover:bg-white hover:text-teal-700">
+                    Make a Donation
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-4 text-white" style="background-color: var(--dark-green);">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Contact Us</h4>
+                    <p class="text-sm mb-2">North Carolina Botanical Garden</p>
+                    <p class="text-sm mb-2">UNC Campus, Chapel Hill, NC 27599</p>
+                    <p class="text-sm mb-2">Phone: (919) 962-0522</p>
+                    <p class="text-sm">Email: ncbg@unc.edu</p>
+                </div>
+                
+                <!-- Visit -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Visit</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:underline">Hours & Admission</a></li>
+                        <li><a href="#" class="hover:underline">Directions & Parking</a></li>
+                        <li><a href="#" class="hover:underline">Maps & Trails</a></li>
+                        <li><a href="#" class="hover:underline">Accessibility</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Learn & Support -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Learn & Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:underline">Events & Programs</a></li>
+                        <li><a href="#" class="hover:underline">Native Plant Resources</a></li>
+                        <li><a href="#" class="hover:underline">Become a Member</a></li>
+                        <li><a href="#" class="hover:underline">Ways to Give</a></li>
+                        <li><a href="#" class="hover:underline">Volunteer</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Connect -->
+                <div>
+                    <h4 class="text-lg font-bold mb-4" style="color: var(--sage);">Connect With Us</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-facebook text-2xl"></i></a>
+                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-twitter text-2xl"></i></a>
+                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-instagram text-2xl"></i></a>
+                        <a href="#" class="hover:opacity-75 transition"><i class="fab fa-youtube text-2xl"></i></a>
+                    </div>
+                    <p class="text-sm mb-4">Subscribe to our newsletter for updates on events, programs, and conservation news.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 text-sm rounded-l-full text-gray-800 outline-none">
+                        <button class="px-4 py-2 rounded-r-full text-sm font-medium" style="background-color: var(--cyan);">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center text-sm">
+                <p class="mb-4 md:mb-0">&copy; 2025 North Carolina Botanical Garden. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <a href="#" class="hover:underline">Terms of Use</a>
+                    <a href="#" class="hover:underline">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

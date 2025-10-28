@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>North Carolina Botanical Garden</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #ede1c7; color: #15322d; }
+    header { background: #583c5c; color: #ede1c7; padding: 1rem 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+    .logo { margin-left: 2rem; font-size: 1.7rem; font-weight: bold; }
+    nav { display: flex; gap: 1.5rem; }
+    nav a { color: #dcdeb1; text-decoration: none; }
+    .search-bar { margin-left: auto; margin-right: 2rem; }
+    .social-icons, .external-links { display: flex; gap: 1rem; }
+    .hero { background: url('banner.jpg') center/cover no-repeat; color: #ede1c7; text-shadow: 1px 1px #15322d; text-align: center; padding: 4rem 2rem; }
+    .hero h1 { font-size: 2.3rem; margin-bottom: 1rem; }
+    section { padding: 2rem; }
+    .cards { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .card { background: #dcdeb1; flex: 1 1 200px; border-radius: 0.5rem; padding: 1.2rem; margin-bottom: 1rem; color: #15322d; }
+    footer { background: #016b5c; color: #ede1c7; text-align: center; padding: 2rem 1rem; }
+    @media (max-width: 800px) {
+      .cards { flex-direction: column; }
+      header, .hero { flex-direction: column; }
+      .search-bar, .social-icons, .external-links { margin: 0.5rem 0; }
+    }
+    .cta { background: #00bcd3; color: #15322d; border-radius: 0.3rem; padding: 0.6rem 1.2rem; text-decoration: none; font-weight: bold; margin-right: 0.5rem;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">NC Botanical Garden</div>
+    <nav>
+      <a href="#">Visit</a>
+      <a href="#">Programs</a>
+      <a href="#">Events</a>
+      <a href="#">Membership</a>
+      <a href="#">About</a>
+    </nav>
+    <div class="search-bar">
+      <input type="search" placeholder="Search plants, events..." aria-label="Search site"/>
+    </div>
+    <div class="social-icons">
+      <a href="#" aria-label="Instagram">🌿</a>
+      <a href="#" aria-label="Facebook">📘</a>
+    </div>
+    <div class="external-links">
+      <a class="cta" href="https://give.unc.edu/donate?m=gift_new&d=10658" target="_blank">Donate</a>
+      <a class="cta" href="https://ncbgshop.com/" target="_blank">Shop</a>
+    </div>
+  </header>
+  <section class="hero">
+    <h1>Fostering Connections: Plants, People, and Place</h1>
+    <p>Plan your visit, discover programs, and grow with us—free public access daily.</p>
+  </section>
+
+  <section>
+    <h2>Upcoming Events</h2>
+    <div class="cards">
+      <div class="card">
+        <strong>Native Fruit Workshop</strong>
+        <p>Thu, Oct 13, 12-1 p.m.<br> Learn to grow, harvest & use native fruits. Free!</p>
+      </div>
+      <div class="card">
+        <strong>Piedmont Hike</strong>
+        <p>Sat, Oct 17, 10 a.m.<br> Explore local biodiversity with our guides.</p>
+      </div>
+      <!-- more event cards -->
+    </div>
+  </section>
+
+  <section>
+    <h2>News</h2>
+    <div class="cards">
+      <div class="card">
+        <strong>FloraQuest Apps Launch</strong>
+        <p>Explore and identify plants with our new apps covering 19 states.</p>
+      </div>
+      <div class="card">
+        <strong>Venus Flytrap Plate</strong>
+        <p>Order your specialty license plate. Proceeds support native plant conservation in NC.</p>
+      </div>
+      <!-- more news cards -->
+    </div>
+  </section>
+
+  <section>
+    <h2>Key Programs & Opportunities</h2>
+    <div class="cards">
+      <div class="card">
+        <strong>Education Programs</strong>
+        <p>Workshops, classes, and youth programs for green thumbs of all ages.</p>
+      </div>
+      <div class="card">
+        <strong>Volunteer & Membership</strong>
+        <p>Join our mission: help out, support the Garden, and enjoy benefits.</p>
+      </div>
+      <div class="card">
+        <strong>Garden Shop</strong>
+        <p>Browse native plants, gifts, and more in our online shop.</p>
+      </div>
+      <!-- more opportunity cards -->
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <strong>North Carolina Botanical Garden</strong><br>
+      100 Old Mason Farm Road, Chapel Hill, NC 27517<br>
+      Tel: (919) 962-0522 &nbsp; | &nbsp; info@ncbg.unc.edu
+    </div>
+    <div>
+      <a href="#">Directions</a> &nbsp;|&nbsp;
+      <a href="#">Accessibility</a> &nbsp;|&nbsp;
+      <a href="#">Careers</a> &nbsp;|&nbsp;
+      <a href="#">Volunteer</a>
+    </div>
+    <div>
+      &copy; 2025 North Carolina Botanical Garden, UNC Chapel Hill. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>

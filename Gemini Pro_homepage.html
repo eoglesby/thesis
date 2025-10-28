@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Carolina Botanical Garden - Prototype</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for custom colors and Inter font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'garden-dark-green': '#15322d', // Primary dark color
+                        'garden-teal': '#016b5c',      // Accent Teal
+                        'garden-sage': '#6ca399',      // Lighter Sage Green
+                        'garden-cream': '#ede1c7',     // Main background color
+                        'garden-khaki': '#dcdeb1',     // Secondary background/highlight
+                        'garden-plum': '#583c5c',      // Dark accent color (Header/Footer background)
+                        'garden-olive': '#bfca7e',     // Highlight/CTA color
+                        'garden-cyan': '#00bcd3',      // Bright accent
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Load Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    </style>
+</head>
+<body class="bg-garden-cream font-sans antialiased text-garden-dark-green">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-garden-plum/95 hidden md:hidden transition-opacity duration-300">
+        <div class="p-6">
+            <button id="close-menu-btn" class="text-garden-cream text-3xl absolute top-4 right-6 hover:text-garden-khaki transition-colors">&times;</button>
+            <nav class="flex flex-col space-y-4 pt-16 text-2xl font-semibold">
+                <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors p-2 rounded-lg">Plan Your Visit</a>
+                <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors p-2 rounded-lg">Learn & Programs</a>
+                <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors p-2 rounded-lg">Conservation</a>
+                <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors p-2 rounded-lg">Plants & Gardens</a>
+                <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors p-2 rounded-lg">About Us</a>
+            </nav>
+            <div class="flex flex-col space-y-4 pt-10 border-t border-garden-sage mt-6">
+                <a href="#" class="text-garden-khaki font-bold text-xl hover:text-white transition-colors p-2 rounded-lg bg-garden-teal">GIVE NOW (Donation)</a>
+                <a href="#" class="text-garden-khaki font-bold text-xl hover:text-white transition-colors p-2 rounded-lg bg-garden-olive">Shop Online</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER: Logo, Navigation, Search, Social, Action Links -->
+    <header class="sticky top-0 z-30 bg-garden-plum shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo/Branding -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-3xl font-extrabold text-garden-khaki hover:text-garden-sage transition-colors">
+                        NCBG
+                        <span class="text-base font-medium block leading-3">Botanical Garden</span>
+                    </a>
+                </div>
+
+                <!-- Main Menu (Desktop) -->
+                <nav class="hidden md:flex md:space-x-4 lg:space-x-8 text-sm font-medium">
+                    <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors px-3 py-2 rounded-md">Plan Your Visit</a>
+                    <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors px-3 py-2 rounded-md">Learn & Programs</a>
+                    <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors px-3 py-2 rounded-md">Conservation</a>
+                    <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors px-3 py-2 rounded-md">Plants & Gardens</a>
+                    <a href="#" class="text-garden-cream hover:text-garden-sage transition-colors px-3 py-2 rounded-md">About Us</a>
+                </nav>
+
+                <!-- Utility Section (Desktop) -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <div class="relative hidden lg:block">
+                        <input type="search" placeholder="Search..." class="w-32 lg:w-40 py-1 pl-3 pr-8 rounded-full text-sm text-garden-dark-green bg-garden-khaki focus:outline-none focus:ring-2 focus:ring-garden-teal">
+                        <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-garden-dark-green text-sm">🔍</span>
+                    </div>
+                    
+                    <!-- Social Icons (Placeholders) -->
+                    <div class="text-garden-khaki space-x-2 hidden lg:flex">
+                        <a href="#" class="hover:text-garden-sage transition-colors text-xl">📘</a>
+                        <a href="#" class="hover:text-garden-sage transition-colors text-xl">📸</a>
+                        <a href="#" class="hover:text-garden-sage transition-colors text-xl">🐦</a>
+                    </div>
+                    
+                    <!-- External Links (Action Buttons) -->
+                    <a href="#" class="bg-garden-teal text-garden-khaki px-4 py-2 text-sm font-bold rounded-full shadow-md hover:bg-garden-dark-green transition-colors whitespace-nowrap">
+                        GIVE NOW
+                    </a>
+                    <a href="#" class="bg-garden-olive text-garden-dark-green px-4 py-2 text-sm font-bold rounded-full shadow-md hover:bg-garden-sage transition-colors whitespace-nowrap">
+                        Shop Online
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="open-menu-btn" class="md:hidden text-garden-cream text-3xl hover:text-garden-sage transition-colors">
+                    &#9776; <!-- Hamburger Icon -->
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION: Banner Image & Headline -->
+        <section class="relative h-96 lg:h-[500px] overflow-hidden">
+            <!-- Placeholder for Banner Image -->
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://placehold.co/1200x600/15322d/ede1c7?text=Inspiring+Plants+%26+Place'); opacity: 0.8;"></div>
+            <div class="absolute inset-0 bg-garden-dark-green/30"></div> 
+            
+            <div class="relative z-10 flex items-center justify-center h-full max-w-5xl mx-auto px-4 text-center">
+                <div class="p-6 bg-garden-plum/70 rounded-2xl shadow-2xl">
+                    <h1 class="text-4xl sm:text-6xl font-extrabold text-garden-khaki leading-tight mb-4">
+                        Fostering Connections Between Plants, People, and Place
+                    </h1>
+                    <p class="text-xl sm:text-2xl text-garden-cream font-medium">
+                        Explore nature, plan your visit, and support conservation right here in North Carolina.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTRO & KEY OPPORTUNITIES SECTION -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <h2 class="text-3xl lg:text-4xl font-bold text-center mb-10 text-garden-dark-green">Discover the Garden</h2>
+
+            <!-- Opportunity Highlights -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Highlight 1: Venus Flytrap Plate -->
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300 border-t-8 border-garden-plum">
+                    <div class="p-6">
+                        <div class="text-3xl text-garden-plum mb-3">⭐</div>
+                        <h3 class="text-2xl font-bold mb-3 text-garden-dark-green">Home of the Venus Flytrap</h3>
+                        <p class="text-gray-600 mb-4">Support plant conservation in North Carolina by purchasing the specialty license plate. Proceeds directly fund critical work.</p>
+                        <a href="#" class="inline-block font-semibold text-garden-plum hover:text-garden-dark-green transition-colors group">
+                            Get Your Plate 
+                            <span class="group-hover:translate-x-1 inline-block transition-transform duration-200">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Highlight 2: FloraQuest Apps -->
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300 border-t-8 border-garden-teal">
+                    <div class="p-6">
+                        <div class="text-3xl text-garden-teal mb-3">📱</div>
+                        <h3 class="text-2xl font-bold mb-3 text-garden-dark-green">FloraQuest Mobile Apps</h3>
+                        <p class="text-gray-600 mb-4">A powerful suite of plant identification and discovery apps covering 19 states. Take your knowledge on the go!</p>
+                        <a href="#" class="inline-block font-semibold text-garden-teal hover:text-garden-dark-green transition-colors group">
+                            Explore the Apps
+                            <span class="group-hover:translate-x-1 inline-block transition-transform duration-200">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Highlight 3: Online Garden Shop -->
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition-transform duration-300 border-t-8 border-garden-olive">
+                    <div class="p-6">
+                        <div class="text-3xl text-garden-olive mb-3">🛍️</div>
+                        <h3 class="text-2xl font-bold mb-3 text-garden-dark-green">Online Garden Shop</h3>
+                        <p class="text-gray-600 mb-4">Find native plants, books, and gifts that celebrate the botanical world. Shop local and support the Garden.</p>
+                        <a href="#" class="inline-block font-semibold text-garden-olive hover:text-garden-dark-green transition-colors group">
+                            Visit the Shop
+                            <span class="group-hover:translate-x-1 inline-block transition-transform duration-200">→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- UPCOMING EVENTS SECTION -->
+        <section class="bg-garden-khaki py-16 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 text-garden-dark-green">Upcoming Events</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Event Card 1 -->
+                    <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://placehold.co/600x400/6ca399/15322d?text=Native+Plant+Sale');"></div>
+                        <div class="p-5">
+                            <p class="text-sm font-semibold text-garden-teal mb-1">Saturday, Oct 28</p>
+                            <h3 class="text-xl font-bold text-garden-dark-green mb-2">Fall Native Plant Sale</h3>
+                            <p class="text-gray-600 text-sm">Find the perfect native species for your garden with expert advice from our horticulturists.</p>
+                            <a href="#" class="mt-4 inline-block text-garden-plum font-medium hover:underline">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 2 -->
+                    <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://placehold.co/600x400/bfca7e/15322d?text=Guided+Tour');"></div>
+                        <div class="p-5">
+                            <p class="text-sm font-semibold text-garden-teal mb-1">Wednesday, Nov 1</p>
+                            <h3 class="text-xl font-bold text-garden-dark-green mb-2">Wetlands Area Guided Tour</h3>
+                            <p class="text-gray-600 text-sm">Discover the unique biodiversity and ecological importance of our restored wetland habitats.</p>
+                            <a href="#" class="mt-4 inline-block text-garden-plum font-medium hover:underline">Register Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://placehold.co/600x400/583c5c/ede1c7?text=Kids+Program');"></div>
+                        <div class="p-5">
+                            <p class="text-sm font-semibold text-garden-teal mb-1">Saturday, Nov 11</p>
+                            <h3 class="text-xl font-bold text-garden-dark-green mb-2">Kids' Botany Workshop: Seeds!</h3>
+                            <p class="text-gray-600 text-sm">A hands-on workshop for young naturalists to explore the amazing world of plant reproduction.</p>
+                            <a href="#" class="mt-4 inline-block text-garden-plum font-medium hover:underline">View All Programs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- NEWS & KNOWLEDGE SECTION (Native Plant Gardening Focus) -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 text-garden-dark-green">News & Native Plant Knowledge</h2>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                
+                <!-- Latest News Column -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 border-b pb-2 border-garden-sage text-garden-plum">Latest News</h3>
+                    <div class="space-y-6">
+                        <!-- News Item 1 -->
+                        <article class="p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                            <p class="text-sm text-gray-500 mb-1">October 15, 2025</p>
+                            <a href="#" class="text-xl font-bold text-garden-dark-green hover:text-garden-teal transition-colors block mb-2">
+                                Garden Receives Major Grant for Longleaf Pine Restoration
+                            </a>
+                            <p class="text-sm text-gray-600 line-clamp-2">The National Endowment for Native Plants has awarded the NCBG funds to expand conservation efforts across 300 acres...</p>
+                        </article>
+
+                        <!-- News Item 2 -->
+                        <article class="p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                            <p class="text-sm text-gray-500 mb-1">October 8, 2025</p>
+                            <a href="#" class="text-xl font-bold text-garden-dark-green hover:text-garden-teal transition-colors block mb-2">
+                                Announcing the New Director of Education and Outreach
+                            </a>
+                            <p class="text-sm text-gray-600 line-clamp-2">We are thrilled to welcome Dr. Eliza Chen to lead our public programming and school group initiatives...</p>
+                        </article>
+                        
+                        <!-- News Item 3 -->
+                        <article class="p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+                            <p class="text-sm text-gray-500 mb-1">September 29, 2025</p>
+                            <a href="#" class="text-xl font-bold text-garden-dark-green hover:text-garden-teal transition-colors block mb-2">
+                                What's Blooming Now: The Autumn Highlights
+                            </a>
+                            <p class="text-sm text-gray-600 line-clamp-2">A guide to the most vibrant native flowers and changing foliage you can find in the gardens this month...</p>
+                        </article>
+                        
+                        <div class="text-center pt-4">
+                            <a href="#" class="text-garden-plum font-semibold hover:underline">View All News</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Knowledge/Blog Post -->
+                <div class="bg-garden-sage p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-4 text-garden-dark-green">Featured Article: Native Gardening</h3>
+                    <img src="https://placehold.co/800x450/016b5c/ede1c7?text=Native+Plant+Identification" alt="Illustration of a native flower" class="w-full h-auto rounded-lg mb-4 shadow-md">
+                    <h4 class="text-xl font-bold text-garden-dark-green mb-3">Understanding Soil pH for Southeastern Native Plants</h4>
+                    <p class="text-garden-dark-green/90 mb-4">
+                        A knowledgeable, friendly guide to balancing the soil chemistry for a thriving native landscape. Learn why certain plants prefer acidic or alkaline conditions and how to test your yard.
+                    </p>
+                    <a href="#" class="inline-block bg-garden-olive text-garden-dark-green px-6 py-2 rounded-full font-bold hover:bg-garden-teal hover:text-white transition-colors">
+                        Read the Guide
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER: Contact, Links, Copyright -->
+    <footer class="bg-garden-plum text-garden-cream py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
+            
+            <!-- Column 1: Contact Information -->
+            <div>
+                <h4 class="text-xl font-bold mb-4 text-garden-khaki">Visit Us</h4>
+                <p class="text-sm mb-2">
+                    100 Old Mason Farm Rd.<br>
+                    Chapel Hill, NC 27517
+                </p>
+                <p class="text-sm mb-2">
+                    (919) 962-0522
+                </p>
+                <p class="text-sm">
+                    <a href="mailto:info@ncbg.unc.edu" class="hover:text-garden-sage transition-colors">info@ncbg.unc.edu</a>
+                </p>
+            </div>
+
+            <!-- Column 2: Quick Links -->
+            <div>
+                <h4 class="text-xl font-bold mb-4 text-garden-khaki">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Directions & Hours</a></li>
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Become a Member</a></li>
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Facility Rentals</a></li>
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Staff Directory</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Resources -->
+            <div>
+                <h4 class="text-xl font-bold mb-4 text-garden-khaki">Resources</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Native Plant Database</a></li>
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Research & Publications</a></li>
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Volunteer Opportunities</a></li>
+                    <li><a href="#" class="hover:text-garden-sage transition-colors">Employment</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Mission & Social -->
+            <div class="md:col-span-1">
+                <h4 class="text-xl font-bold mb-4 text-garden-khaki">Our Mission</h4>
+                <p class="text-sm mb-4">
+                    Fostering connections between plants, people, and place through conservation, education, and research.
+                </p>
+                <!-- Social Icons in Footer -->
+                <div class="flex space-x-3 text-2xl text-garden-khaki">
+                    <a href="#" class="hover:text-garden-sage transition-colors">📘</a>
+                    <a href="#" class="hover:text-garden-sage transition-colors">📸</a>
+                    <a href="#" class="hover:text-garden-sage transition-colors">🐦</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright and Accessibility -->
+        <div class="pt-8 mt-8 border-t border-garden-sage/30 text-center text-xs">
+            &copy; 2025 North Carolina Botanical Garden. All rights reserved. 
+            <span class="inline-block mx-2">|</span> 
+            <a href="#" class="hover:text-garden-sage transition-colors">Privacy Policy</a>
+            <span class="inline-block mx-2">|</span>
+            <a href="#" class="hover:text-garden-sage transition-colors">Accessibility</a>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const openBtn = document.getElementById('open-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        openBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        });
+        
+        // Close menu if a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
+</body>
+</html>
+
