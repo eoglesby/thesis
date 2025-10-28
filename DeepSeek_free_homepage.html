@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Carolina Botanical Garden | Connecting Plants, People & Place</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Brand Colors */
+        :root {
+            --primary-purple: #583c5c;
+            --light-green: #dcdeb1;
+            --dark-green: #15322d;
+            --teal: #016b5c;
+            --medium-teal: #6ca399;
+            --cream: #ede1c7;
+            --bright-teal: #00bcd3;
+            --olive: #bfca7e;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --text-dark: #333333;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--teal);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-green);
+        }
+
+        .btn-secondary {
+            background-color: var(--bright-teal);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--teal);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--teal);
+            color: var(--teal);
+            background-color: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--teal);
+            color: var(--white);
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .external-links a {
+            margin-left: 20px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .external-links a:hover {
+            color: var(--light-green);
+        }
+
+        .external-links i {
+            margin-right: 5px;
+        }
+
+        .main-header {
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .logo-text {
+            margin-left: 15px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--dark-green);
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            color: var(--teal);
+        }
+
+        .search-social {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .search-bar input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--teal);
+            cursor: pointer;
+        }
+
+        .social-icons a {
+            margin-left: 15px;
+            font-size: 1.2rem;
+            color: var(--teal);
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-purple);
+        }
+
+        nav {
+            background-color: var(--teal);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            background-color: var(--dark-green);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--teal);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            background: linear-gradient(rgba(21, 50, 45, 0.7), rgba(21, 50, 45, 0.5));
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Highlights Section */
+        .highlights {
+            padding: 60px 0;
+            background-color: var(--light-gray);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--dark-green);
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--teal);
+        }
+
+        .highlight-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card h3 {
+            color: var(--dark-green);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .card .btn {
+            margin-top: 10px;
+        }
+
+        /* Opportunities Section */
+        .opportunities {
+            padding: 60px 0;
+            background-color: var(--cream);
+        }
+
+        .opportunity-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .opportunity {
+            display: flex;
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .opportunity-icon {
+            flex: 0 0 80px;
+            background-color: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+        }
+
+        .opportunity-content {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .opportunity h3 {
+            color: var(--dark-green);
+            margin-bottom: 10px;
+        }
+
+        /* Events Section */
+        .events {
+            padding: 60px 0;
+            background-color: var(--white);
+        }
+
+        .event-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .event-date {
+            display: inline-block;
+            background-color: var(--teal);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--light-green);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--bright-teal);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+        }
+
+        .footer-links a:hover {
+            color: var(--bright-teal);
+            padding-left: 5px;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--bright-teal);
+            margin-top: 3px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            .search-social {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 15px;
+            }
+            
+            .search-bar input {
+                width: 300px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 250px;
+                margin-bottom: 10px;
+            }
+            
+            .search-bar input {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-text {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .search-social {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                margin-right: 0;
+            }
+            
+            .social-icons {
+                display: flex;
+                justify-content: center;
+            }
+            
+            .highlight-cards, .opportunity-items, .event-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="top-bar">
+            <div class="container top-bar-content">
+                <div class="external-links">
+                    <a href="https://ncbg.unc.edu/donate" target="_blank"><i class="fas fa-heart"></i> Donate</a>
+                    <a href="https://ncbg.unc.edu/shop" target="_blank"><i class="fas fa-shopping-cart"></i> Online Shop</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-header">
+            <div class="container header-content">
+                <div class="logo">
+                    <img src="https://ncbg.unc.edu/wp-content/themes/ncbg/assets/images/ncbg-logo.png" alt="NC Botanical Garden Logo">
+                    <div class="logo-text">
+                        <h1>North Carolina Botanical Garden</h1>
+                        <p>Connecting Plants, People & Place</p>
+                    </div>
+                </div>
+                
+                <div class="search-social">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <nav>
+            <div class="container">
+                <ul class="nav-menu">
+                    <li><a href="#">Visit</a></li>
+                    <li><a href="#">Gardens & Trails</a></li>
+                    <li><a href="#">Education</a></li>
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Conservation</a></li>
+                    <li><a href="#">Get Involved</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="Botanical Garden" class="hero-bg">
+        <div class="hero-content">
+            <h2>Discover the Beauty of Native Plants</h2>
+            <p>Explore our gardens, attend educational programs, and connect with nature in the heart of North Carolina.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Plan Your Visit</a>
+                <a href="#" class="btn btn-secondary">View Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlights Section -->
+    <section class="highlights">
+        <div class="container">
+            <div class="section-title">
+                <h2>Explore Our Garden</h2>
+            </div>
+            
+            <div class="highlight-cards">
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1590065480001-4d63afaae66f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Display Gardens">
+                    </div>
+                    <div class="card-content">
+                        <h3>Display Gardens</h3>
+                        <p>Wander through our beautifully curated gardens showcasing native plants of the Southeast.</p>
+                        <a href="#" class="btn btn-outline">Explore Gardens</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1572021335469-31706a17aaef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Natural Areas">
+                    </div>
+                    <div class="card-content">
+                        <h3>Natural Areas</h3>
+                        <p>Discover our protected natural habitats and walking trails through diverse ecosystems.</p>
+                        <a href="#" class="btn btn-outline">View Trails</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Education Programs">
+                    </div>
+                    <div class="card-content">
+                        <h3>Education Programs</h3>
+                        <p>Join our classes, workshops, and tours to deepen your knowledge of native plants.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Opportunities Section -->
+    <section class="opportunities">
+        <div class="container">
+            <div class="section-title">
+                <h2>Special Opportunities</h2>
+            </div>
+            
+            <div class="opportunity-items">
+                <div class="opportunity">
+                    <div class="opportunity-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="opportunity-content">
+                        <h3>Venus Flytrap License Plate</h3>
+                        <p>Support plant conservation in North Carolina with our specialty license plate. Proceeds benefit native plant preservation.</p>
+                        <a href="#" class="btn btn-primary">Get Yours</a>
+                    </div>
+                </div>
+                
+                <div class="opportunity">
+                    <div class="opportunity-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="opportunity-content">
+                        <h3>FloraQuest Apps</h3>
+                        <p>Identify and discover plants across 19 states with our suite of mobile plant identification apps.</p>
+                        <a href="#" class="btn btn-primary">Download Now</a>
+                    </div>
+                </div>
+                
+                <div class="opportunity">
+                    <div class="opportunity-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="opportunity-content">
+                        <h3>Garden Shop</h3>
+                        <p>Browse our online shop for native plants, gardening supplies, books, and unique gifts.</p>
+                        <a href="https://ncbg.unc.edu/shop" class="btn btn-primary">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events">
+        <div class="container">
+            <div class="section-title">
+                <h2>Upcoming Events</h2>
+            </div>
+            
+            <div class="event-cards">
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Garden Workshop">
+                    </div>
+                    <div class="card-content">
+                        <span class="event-date">June 15, 2023</span>
+                        <h3>Native Plant Gardening Workshop</h3>
+                        <p>Learn how to create a beautiful, sustainable garden with native plants that support local wildlife.</p>
+                        <a href="#" class="btn btn-outline">Register Now</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Guided Tour">
+                    </div>
+                    <div class="card-content">
+                        <span class="event-date">June 22, 2023</span>
+                        <h3>Guided Wildflower Walk</h3>
+                        <p>Join our expert botanists for a guided tour of our wildflower displays at peak bloom.</p>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1545243424-0ce743321e11?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Family Event">
+                    </div>
+                    <div class="card-content">
+                        <span class="event-date">July 8, 2023</span>
+                        <h3>Family Day: Pollinator Party</h3>
+                        <p>Fun activities for all ages celebrating the important role of pollinators in our ecosystem.</p>
+                        <a href="#" class="btn btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Visit Us</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> 100 Old Mason Farm Road, Chapel Hill, NC 27517</p>
+                        <p><i class="fas fa-clock"></i> Tuesday-Sunday: 9am-5pm (Closed Mondays)</p>
+                        <p><i class="fas fa-phone"></i> (919) 962-0522</p>
+                        <p><i class="fas fa-envelope"></i> ncbg@unc.edu</p>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Plan Your Visit</a></li>
+                        <li><a href="#">Gardens & Trails Map</a></li>
+                        <li><a href="#">Calendar of Events</a></li>
+                        <li><a href="#">Education Programs</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">Become a Member</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Native Plant Information</a></li>
+                        <li><a href="#">Plant Conservation</a></li>
+                        <li><a href="#">Research</a></li>
+                        <li><a href="#">Publications</a></li>
+                        <li><a href="#">Photo Gallery</a></li>
+                        <li><a href="#">Press Room</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Stay Connected</h3>
+                    <p>Sign up for our newsletter to receive updates on events, programs, and garden news.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address" style="padding: 10px; width: 100%; margin: 10px 0; border-radius: 4px; border: none;">
+                        <button class="btn btn-secondary" style="width: 100%;">Subscribe</button>
+                    </div>
+                    <div class="social-icons" style="margin-top: 15px;">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 North Carolina Botanical Garden. All rights reserved. | The University of North Carolina at Chapel Hill</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

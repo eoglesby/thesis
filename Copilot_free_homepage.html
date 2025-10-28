@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Carolina Botanical Garden</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #ede1c7;
+      color: #15322d;
+    }
+
+    .site-header {
+      background-color: #583c5c;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .main-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      padding: 0;
+      margin: 0;
+    }
+
+    .main-nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .header-utilities {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-utilities input {
+      padding: 0.5rem;
+    }
+
+    .social-icons a,
+    .external-links a {
+      color: white;
+      margin-right: 0.5rem;
+      text-decoration: none;
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      background-color: #6ca399;
+    }
+
+    .hero img {
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+    }
+
+    .hero-buttons .btn {
+      background-color: #00bcd3;
+      color: white;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 2rem;
+      background-color: #dcdeb1;
+    }
+
+    .highlight {
+      flex: 1;
+      min-width: 250px;
+      background-color: #bfca7e;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+
+    .events,
+    .news {
+      padding: 2rem;
+      background-color: #ede1c7;
+    }
+
+    .events ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .events li,
+    .news article {
+      margin-bottom: 1rem;
+    }
+
+    .site-footer {
+      background-color: #15322d;
+      color: white;
+      padding: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .footer-links a,
+    .footer-social a {
+      color: #00bcd3;
+      text-decoration: none;
+      margin-right: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .main-nav ul,
+      .header-utilities,
+      .highlights {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-text {
+        position: static;
+        transform: none;
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo">NCBG</div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#">Visit</a></li>
+        <li><a href="#">Learn</a></li>
+        <li><a href="#">Engagement</a></li>
+        <li><a href="#">Plants</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+    <div class="header-utilities">
+      <input type="text" placeholder="Search..." />
+      <div class="social-icons">
+        <a href="#">FB</a>
+        <a href="#">IG</a>
+        <a href="#">TW</a>
+      </div>
+      <div class="external-links">
+        <a href="#">Donate</a>
+        <a href="#">Shop</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <img src="banner.jpg" alt="Botanical Garden Banner" />
+    <div class="hero-text">
+      <h1>A Conservation Garden</h1>
+      <p>Explore Our Sites</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn">Take a Class</a>
+        <a href="#" class="btn">Become a Member</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights -->
+  <section class="highlights">
+    <div class="highlight">
+      <h2>🌱 Venus Flytrap License Plate</h2>
+      <p>Support plant conservation in NC with our specialty plate.</p>
+    </div>
+    <div class="highlight">
+      <h2>📱 FloraQuest Apps</h2>
+      <p>Explore native plants across 19 states with our mobile tools.</p>
+    </div>
+    <div class="highlight">
+      <h2>🛍️ Online Garden Shop</h2>
+      <p>Browse gifts and gardening essentials on our external store.</p>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="events">
+    <h2>Upcoming Events</h2>
+    <ul>
+      <li><strong>Sep. 25</strong> – Virtual Lunchbox Talk: Bumblebees</li>
+      <li><strong>Sep. 27</strong> – Fall Plant Sale</li>
+      <li><strong>Oct. 1</strong> – Fiddleheads: Preschool Nature Explorers</li>
+    </ul>
+    <a href="#">View All Events</a>
+  </section>
+
+  <!-- News -->
+  <section class="news">
+    <h2>What's Happening</h2>
+    <article>
+      <h3>Sculpture in the Garden</h3>
+      <p>Free and open through Dec. 7 during Garden hours.</p>
+    </article>
+    <article>
+      <h3>Fall Plant Sale 2025</h3>
+      <p>Fall is the best time to plant native species in NC.</p>
+    </article>
+    <article>
+      <h3>FloraQuest: South-Central</h3>
+      <p>Now available for TN, MS, and AL.</p>
+    </article>
+    <a href="#">View All News</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-contact">
+      <h3>Visit Us</h3>
+      <p>100 Old Mason Farm Road<br />Chapel Hill, NC 27517</p>
+      <p>Phone: 919-962-0522<br />Fax: 919-962-3531</p>
+    </div>
+    <div class="footer-links">
+      <a href="#">Visitor Safety</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Subscribe to eNewsletter</a>
+    </div>
+    <div class="footer-social">
+      <a href="#">FB</a>
+      <a href="#">IG</a>
+      <a href="#">TW</a>
+      <a href="#">YT</a>
+    </div>
+    <p class="copyright">© 2025 North Carolina Botanical Garden</p>
+  </footer>
+
+</body>
+</html>

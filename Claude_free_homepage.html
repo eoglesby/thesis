@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Carolina Botanical Garden - Connecting Plants, People & Place</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --deep-purple: #583c5c;
+            --sage-green: #dcdeb1;
+            --forest-dark: #15322d;
+            --teal-dark: #016b5c;
+            --teal-light: #6ca399;
+            --cream: #ede1c7;
+            --cyan: #00bcd3;
+            --lime: #bfca7e;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: var(--forest-dark);
+            background-color: var(--white);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            background-color: var(--forest-dark);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .external-links a {
+            color: var(--sage-green);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
+        
+        .external-links a:hover {
+            color: var(--white);
+        }
+        
+        .header-main {
+            padding: 15px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--teal-dark);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--teal-dark), var(--teal-light));
+            border-radius: 50%;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--forest-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--teal-dark);
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--teal-dark);
+            transition: width 0.3s;
+        }
+        
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .search-bar {
+            position: relative;
+        }
+        
+        .search-bar input {
+            padding: 10px 40px 10px 15px;
+            border: 2px solid var(--sage-green);
+            border-radius: 25px;
+            width: 250px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-bar input:focus {
+            border-color: var(--teal-dark);
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--teal-dark);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: var(--teal-dark);
+            font-size: 20px;
+            transition: transform 0.3s, color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            transform: translateY(-2px);
+            color: var(--cyan);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--forest-dark);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 70vh;
+            background: linear-gradient(rgba(21, 50, 45, 0.4), rgba(88, 60, 92, 0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23dcdeb1" width="1200" height="600"/><path fill="%23016b5c" opacity="0.3" d="M0,300 Q300,200 600,250 T1200,200 L1200,600 L0,600 Z"/><circle fill="%236ca399" opacity="0.5" cx="200" cy="150" r="80"/><circle fill="%23bfca7e" opacity="0.6" cx="800" cy="100" r="60"/><circle fill="%23583c5c" opacity="0.4" cx="1000" cy="200" r="100"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, var(--teal-dark), var(--teal-light));
+            color: var(--white);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(1, 107, 92, 0.3);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 80px 0;
+        }
+        
+        .section {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--deep-purple);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal-dark), var(--lime));
+        }
+        
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--sage-green);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: var(--teal-dark);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .card p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .card-link {
+            color: var(--deep-purple);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .card-link:hover {
+            color: var(--teal-dark);
+        }
+        
+        /* Highlights Section */
+        .highlights {
+            background: linear-gradient(135deg, var(--cream), var(--sage-green));
+            padding: 80px 0;
+            margin: 80px 0;
+        }
+        
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .highlight-item {
+            text-align: center;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .highlight-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .highlight-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--teal-dark), var(--cyan));
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--white);
+        }
+        
+        .highlight-item h4 {
+            color: var(--deep-purple);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .highlight-item p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--forest-dark);
+            color: var(--sage-green);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h4 {
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-section p, .footer-section li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section a {
+            color: var(--sage-green);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--white);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--deep-purple);
+            padding-top: 30px;
+            text-align: center;
+            color: var(--sage-green);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .search-bar input {
+                width: 200px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .highlights-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero {
+                height: 50vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div>Free Admission • Open Daily</div>
+                <div class="external-links">
+                    <a href="#" target="_blank">Donate</a>
+                    <a href="#" target="_blank">Garden Shop</a>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="header-content">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">🌿</div>
+                        <span>NC Botanical Garden</span>
+                    </a>
+                    
+                    <nav>
+                        <ul class="nav-menu">
+                            <li><a href="#">Visit</a></li>
+                            <li><a href="#">Learn</a></li>
+                            <li><a href="#">Events</a></li>
+                            <li><a href="#">Gardens</a></li>
+                            <li><a href="#">Conservation</a></li>
+                            <li><a href="#">About</a></li>
+                        </ul>
+                        <button class="mobile-menu-btn">☰</button>
+                    </nav>
+                    
+                    <div class="header-right">
+                        <div class="search-bar">
+                            <input type="text" placeholder="Search plants, events, programs...">
+                            <button class="search-btn">🔍</button>
+                        </div>
+                        <div class="social-icons">
+                            <a href="#" aria-label="Facebook">📘</a>
+                            <a href="#" aria-label="Instagram">📷</a>
+                            <a href="#" aria-label="Twitter">🐦</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Connecting Plants, People & Place</h1>
+            <p>Explore North Carolina's native flora in our free public garden and discover the beauty of southeastern plants</p>
+            <a href="#" class="cta-button">Plan Your Visit</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Upcoming Events -->
+            <section class="section">
+                <h2 class="section-title">Upcoming Events</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Native Plant Festival</h3>
+                        <p><strong>March 15-17, 2025</strong></p>
+                        <p>Join us for our annual celebration of native plants with workshops, plant sales, and expert talks on southeastern flora.</p>
+                        <a href="#" class="card-link">Learn More →</a>
+                    </div>
+                    <div class="card">
+                        <h3>Spring Wildflower Walks</h3>
+                        <p><strong>Every Saturday in April</strong></p>
+                        <p>Guided tours through our woodland trails to discover spring ephemeral wildflowers in their natural habitat.</p>
+                        <a href="#" class="card-link">Register →</a>
+                    </div>
+                    <div class="card">
+                        <h3>Photography Workshop</h3>
+                        <p><strong>April 5, 2025</strong></p>
+                        <p>Learn techniques for capturing the beauty of native plants and garden landscapes with professional photographer.</p>
+                        <a href="#" class="card-link">Sign Up →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- News & Updates -->
+            <section class="section">
+                <h2 class="section-title">News & Updates</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>New Pollinator Garden Opens</h3>
+                        <p>Our expanded pollinator garden featuring native plants that support butterflies, bees, and hummingbirds is now open to visitors.</p>
+                        <a href="#" class="card-link">Read More →</a>
+                    </div>
+                    <div class="card">
+                        <h3>FloraQuest App Update</h3>
+                        <p>The latest version of our plant identification app now includes 500 new species and improved search functionality.</p>
+                        <a href="#" class="card-link">Download →</a>
+                    </div>
+                    <div class="card">
+                        <h3>Conservation Success Story</h3>
+                        <p>Our Venus flytrap conservation project has successfully established three new populations in the wild.</p>
+                        <a href="#" class="card-link">Learn More →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Key Programs Highlight -->
+        <section class="highlights">
+            <div class="container">
+                <h2 class="section-title" style="color: var(--forest-dark);">Featured Opportunities</h2>
+                <div class="highlights-grid">
+                    <div class="highlight-item">
+                        <div class="highlight-icon">🦎</div>
+                        <h4>Venus Flytrap License Plate</h4>
+                        <p>Support plant conservation in North Carolina with our specialty license plate. Proceeds fund vital conservation work.</p>
+                        <a href="#" class="card-link">Get Your Plate →</a>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon">📱</div>
+                        <h4>FloraQuest Apps</h4>
+                        <p>Identify plants across 19 states with our comprehensive mobile plant identification and discovery suite.</p>
+                        <a href="#" class="card-link">Download Apps →</a>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon">🛒</div>
+                        <h4>Garden Shop</h4>
+                        <p>Browse native plants, gardening supplies, and educational materials to bring botanical beauty to your home.</p>
+                        <a href="#" class="card-link">Shop Now →</a>
+                    </div>
+                    <div class="highlight-item">
+                        <div class="highlight-icon">🎓</div>
+                        <h4>Educational Programs</h4>
+                        <p>Join workshops, lectures, and hands-on classes for gardeners of all skill levels and interests.</p>
+                        <a href="#" class="card-link">View Programs →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- Programs & Learning -->
+            <section class="section">
+                <h2 class="section-title">Learn & Grow</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Native Plant Gardening</h3>
+                        <p>Discover how to create beautiful, sustainable gardens using North Carolina's native plants. Perfect for beginners and experts alike.</p>
+                        <a href="#" class="card-link">Start Learning →</a>
+                    </div>
+                    <div class="card">
+                        <h3>Plant Identification</h3>
+                        <p>Learn to identify common and rare plants of the Southeast with our comprehensive guides and expert resources.</p>
+                        <a href="#" class="card-link">Explore Guides →</a>
+                    </div>
+                    <div class="card">
+                        <h3>Volunteer Program</h3>
+                        <p>Join our community of dedicated volunteers helping with garden maintenance, education programs, and conservation efforts.</p>
+                        <a href="#" class="card-link">Get Involved →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Visit Us</h4>
+                    <p>100 Old Mason Farm Road<br>
+                    Chapel Hill, NC 27517</p>
+                    <p><strong>Hours:</strong><br>
+                    Daily: 8 AM - 5 PM<br>
+                    Free Admission</p>
+                    <p><strong>Phone:</strong> (919) 962-0522</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Plan Your Visit</a></li>
+                        <li><a href="#">Garden Maps</a></li>
+                        <li><a href="#">Events Calendar</a></li>
+                        <li><a href="#">Educational Programs</a></li>
+                        <li><a href="#">Plant Collections</a></li>
+                        <li><a href="#">Research</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support & Connect</h4>
+                    <ul>
+                        <li><a href="#">Become a Member</a></li>
+                        <li><a href="#">Make a Donation</a></li>
+                        <li><a href="#">Volunteer</a></li>
+                        <li><a href="#">Newsletter Signup</a></li>
+                        <li><a href="#">Social Media</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">FloraQuest Apps</a></li>
+                        <li><a href="#">Venus Flytrap Plate</a></li>
+                        <li><a href="#">Garden Shop</a></li>
+                        <li><a href="#">Plant Database</a></li>
+                        <li><a href="#">Conservation Projects</a></li>
+                        <li><a href="#">Publications</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 North Carolina Botanical Garden, University of North Carolina at Chapel Hill. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const nav = document.querySelector('.nav-menu');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const query = document.querySelector('.search-bar input').value;
+            if (query.trim()) {
+                alert('Searching for: ' + query);
+                // In a real implementation, this would perform the actual search
+            }
+        });
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
