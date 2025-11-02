@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCBG Sitemap Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+            padding: 20px;
+            color: #2d5a3d;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #1e4d2b;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #5a7a6a;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #4a7c59;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .controls button:hover {
+            background: #3d6b4a;
+            transform: translateY(-2px);
+        }
+
+        .controls button.active {
+            background: #2d5a3d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .search-box {
+            margin: 0 20px;
+            padding: 10px;
+            border: 2px solid #4a7c59;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 300px;
+        }
+
+        .sitemap-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-height: 80vh;
+            overflow: auto;
+        }
+
+        .site-node {
+            margin: 5px 0;
+            position: relative;
+        }
+
+        .node-content {
+            padding: 8px 12px;
+            border-left: 3px solid #4a7c59;
+            background: #f8fbf8;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .node-content:hover {
+            background: #e8f5e8;
+            transform: translateX(5px);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .node-content.root {
+            background: #1e4d2b;
+            color: white;
+            font-weight: bold;
+            border-left-color: #1e4d2b;
+        }
+
+        .node-content.level-1 {
+            margin-left: 20px;
+            border-left-color: #2d5a3d;
+            background: #f0f8f0;
+        }
+
+        .node-content.level-2 {
+            margin-left: 40px;
+            border-left-color: #4a7c59;
+            background: #f8fbf8;
+        }
+
+        .node-content.level-3 {
+            margin-left: 60px;
+            border-left-color: #6ba777;
+            background: #fafcfa;
+        }
+
+        .node-content.level-4 {
+            margin-left: 80px;
+            border-left-color: #8cc295;
+            background: #fcfefc;
+        }
+
+        .node-content.level-5 {
+            margin-left: 100px;
+            border-left-color: #b3d4b8;
+            background: #fefffe;
+        }
+
+        .expand-icon {
+            font-size: 12px;
+            color: #4a7c59;
+            width: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+
+        .node-url {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #666;
+            flex: 1;
+        }
+
+        .node-meta {
+            font-size: 11px;
+            color: #888;
+            background: #e8f5e8;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .children {
+            display: none;
+        }
+
+        .children.show {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #4a7c59;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1e4d2b;
+        }
+
+        .stat-label {
+            color: #5a7a6a;
+            margin-top: 5px;
+        }
+
+        .highlight {
+            background: #fff3cd !important;
+            border-left-color: #ffc107 !important;
+        }
+
+        .problem-pages {
+            background: #f8d7da;
+            border-left-color: #dc3545 !important;
+        }
+
+        .filter-info {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: 300px;
+                margin: 10px 0;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌿 NCBG Sitemap Analysis</h1>
+        <p>Interactive visualization of the North Carolina Botanical Garden website structure</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number" id="totalPages">191</div>
+            <div class="stat-label">Total Pages</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="maxDepth">6</div>
+            <div class="stat-label">Maximum Depth</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="problemPages">12</div>
+            <div class="stat-label">Problem Pages</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="orphanedPages">8</div>
+            <div class="stat-label">Isolated/Form Pages</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="expandAll()" id="expandBtn">Expand All</button>
+        <button onclick="collapseAll()" id="collapseBtn">Collapse All</button>
+        <button onclick="showProblems()" id="problemBtn">Show Problems</button>
+        <button onclick="showAll()" id="showAllBtn" class="active">Show All</button>
+        <input type="text" class="search-box" placeholder="Search pages..." id="searchBox" oninput="filterPages()">
+    </div>
+
+    <div class="filter-info" id="filterInfo"></div>
+
+    <div class="sitemap-container" id="sitemapContainer">
+        <!-- Sitemap will be generated here -->
+    </div>
+
+    <script>
+        // Sitemap data structure
+        const sitemapData = {
+            url: 'https://ncbg.unc.edu/',
+            title: 'North Carolina Botanical Garden',
+            children: [
+                {
+                    url: '/visit/',
+                    title: 'Visit',
+                    children: [
+                        { url: '/visit/visitor-information/', title: 'Visitor Information' },
+                        { url: '/visit/visitor-safety/', title: 'Visitor Safety' },
+                        { url: '/visit/guided-tours/', title: 'Guided Tours' },
+                        { url: '/visit/private-tour-request-adult-groups/', title: 'Private Tours - Adult Groups', meta: 'Form' },
+                        {
+                            url: '/visit/exhibits/',
+                            title: 'Exhibits',
+                            children: [
+                                { url: '/visit/exhibits/educational/', title: 'Educational Exhibits' },
+                                { url: '/visit/exhibits/deberry-gallery/', title: 'DeBerry Gallery' },
+                                { url: '/visit/exhibits/sculpture-in-the-garden/', title: 'Sculpture in the Garden' },
+                                { url: '/visit/exhibits/gallery-info/', title: 'Gallery Information' },
+                                { url: '/visit/exhibits/birds-of-nc/', title: 'Birds of NC' },
+                                { url: '/visit/exhibits/saving-our-savannas/', title: 'Saving Our Savannas' },
+                                { url: '/visit/exhibits/longleaf-community-art/', title: 'Longleaf Community Art' },
+                                { url: '/visit/exhibits/paul-green-cabin/', title: 'Paul Green Cabin' },
+                                { url: '/visit/exhibits/community-photo-exhibit/', title: 'Community Photo Exhibit' },
+                                { url: '/visit/exhibits/gallery-application/', title: 'Gallery Application', meta: 'Form' },
+                                { url: '/visit/exhibits/sos-exhibit-entry/', title: 'SOS Exhibit Entry', meta: 'Form' },
+                                { url: '/visit/exhibits/sculpture-entry-form/', title: 'Sculpture Entry Form', meta: 'Form' },
+                                { url: '/visit/exhibits/sig-artist-info/', title: 'Artist Information', meta: 'Form' },
+                                { url: '/visit/exhibits/bai-calendar-entry/', title: 'BAI Calendar Entry', meta: 'Form' }
+                            ]
+                        },
+                        {
+                            url: '/visit/preserves-and-natural-areas/',
+                            title: 'Preserves & Natural Areas',
+                            children: [
+                                { url: '/visit/preserves-and-natural-areas/natural-areas-request/', title: 'Natural Areas Request', meta: 'Form' },
+                                { url: '/visit/preserves-and-natural-areas/20618-2/', title: 'Natural Areas Info', meta: 'Unclear URL' }
+                            ]
+                        },
+                        { url: '/visit/coker-arboretum/', title: 'Coker Arboretum' },
+                        { url: '/visit/coker-pinetum/', title: 'Coker Pinetum' },
+                        { url: '/visit/parker-preserve/', title: 'Parker Preserve' },
+                        { url: '/visit/battle-park-forest-theatre/', title: 'Battle Park Forest Theatre' },
+                        {
+                            url: '/visit/mason-farm-biological-reserve/',
+                            title: 'Mason Farm Biological Reserve',
+                            children: [
+                                { url: '/visit/mason-farm-biological-reserve/mfbr-permit/', title: 'MFBR Permit', meta: 'Form' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    url: '/learn/',
+                    title: 'Learn',
+                    children: [
+                        {
+                            url: '/learn/adult-programs/',
+                            title: 'Adult Programs',
+                            children: [
+                                { url: '/learn/adult-programs/conservation-gardening/', title: 'Conservation Gardening' },
+                                { url: '/learn/adult-programs/botanical-art-illustration/', title: 'Botanical Art & Illustration' },
+                                { url: '/learn/adult-programs/native-plants/', title: 'Native Plants' }
+                            ]
+                        },
+                        {
+                            url: '/learn/youth-family/',
+                            title: 'Youth & Family',
+                            children: [
+                                { url: '/learn/youth-family/youth-family-e-newsletter/', title: 'Youth Family E-Newsletter' },
+                                { url: '/learn/youth-family/schools-out-camps-scholarship-application/', title: 'Camps Scholarship', meta: 'Form' }
+                            ]
+                        },
+                        {
+                            url: '/learn/schools-and-groups/',
+                            title: 'Schools & Groups',
+                            children: [
+                                { url: '/learn/schools-and-groups/guided-field-trips/', title: 'Guided Field Trips' },
+                                { url: '/learn/schools-and-groups/guided-field-trip-prep/', title: 'Field Trip Prep' },
+                                { url: '/learn/schools-and-groups/self-guided-field-trips/', title: 'Self-Guided Field Trips' },
+                                { url: '/learn/schools-and-groups/virtual-field-trips/', title: 'Virtual Field Trips' },
+                                { url: '/learn/schools-and-groups/teacher-resources/', title: 'Teacher Resources' },
+                                { url: '/learn/schools-and-groups/guided-field-trip-offerings/', title: 'Field Trip Offerings' },
+                                { url: '/learn/schools-and-groups/guided-field-trip-request/', title: 'Field Trip Request', meta: 'Form' },
+                                { url: '/learn/schools-and-groups/self-guided-field-trip-request/', title: 'Self-Guided Request', meta: 'Form' }
+                            ]
+                        },
+                        {
+                            url: '/learn/camp-flytrap/',
+                            title: 'Camp Flytrap',
+                            children: [
+                                { url: '/learn/camp-flytrap/camp-flytrap-partial-scholarship-application/', title: 'Camp Scholarship', meta: 'Form' },
+                                { url: '/learn/camp-flytrap/teen-camp-assistant-application/', title: 'Teen Assistant Application', meta: 'Form' }
+                            ]
+                        },
+                        { url: '/learn/certificate-programs/', title: 'Certificate Programs' },
+                        { url: '/learn/virtual-programs/', title: 'Virtual Programs' },
+                        { url: '/learn/kids-activities/', title: 'Kids Activities' },
+                        { url: '/learn/scavenger-hunts/', title: 'Scavenger Hunts' },
+                        { url: '/learn/bird-friendly-landscapes/', title: 'Bird Friendly Landscapes' },
+                        { url: '/learn/ba-fundamentals/', title: 'BA Fundamentals' },
+                        { url: '/learn/bai-faq/', title: 'BAI FAQ' },
+                        {
+                            url: '/learn/recordings/',
+                            title: 'Recordings',
+                            children: [
+                                { url: '/learn/recordings/wreath-making-with-native-plants/', title: 'Wreath Making with Native Plants' }
+                            ]
+                        },
+                        { url: '/learn/visiting-artist-partial-scholarship-application/', title: 'Artist Scholarship', meta: 'Form' }
+                    ]
+                },
+                {
+                    url: '/plants/',
+                    title: 'Plants',
+                    children: [
+                        { url: '/plants/green-gardener/', title: 'Green Gardener' },
+                        { url: '/plants/pollinator-central/', title: 'Pollinator Central' },
+                        { url: '/plants/resources-for-gardeners/', title: 'Resources for Gardeners' },
+                        { url: '/plants/plant-sales/', title: 'Plant Sales' },
+                        { url: '/plants/nc-wildflower-of-the-year/', title: 'NC Wildflower of the Year' },
+                        {
+                            url: '/plants/native-seed-distribution/',
+                            title: 'Native Seed Distribution',
+                            children: [
+                                { url: '/plants/native-seed-distribution/request/', title: 'Seed Request', meta: 'Form' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    url: '/research/',
+                    title: 'Research',
+                    children: [
+                        {
+                            url: '/research/plant-conservation/',
+                            title: 'Plant Conservation',
+                            children: [
+                                { url: '/research/plant-conservation/land-management/', title: 'Land Management' },
+                                { url: '/research/plant-conservation/rare-plant-recovery/', title: 'Rare Plant Recovery' },
+                                { url: '/research/plant-conservation/seed-banking-ecology/', title: 'Seed Banking Ecology' },
+                                { url: '/research/plant-conservation/pmas/', title: 'PMAS' }
+                            ]
+                        },
+                        {
+                            url: '/research/unc-herbarium/',
+                            title: 'UNC Herbarium',
+                            children: [
+                                { url: '/research/unc-herbarium/flora-help/', title: 'Flora Help' },
+                                { url: '/research/unc-herbarium/visitation/', title: 'Visitation' },
+                                { url: '/research/unc-herbarium/loan-accession-policy/', title: 'Loan & Accession Policy' },
+                                { url: '/research/unc-herbarium/specimen-portals/', title: 'Specimen Portals' },
+                                { url: '/research/unc-herbarium/collectors/', title: 'Collectors' },
+                                { url: '/research/unc-herbarium/floras/', title: 'Floras' },
+                                { url: '/research/unc-herbarium/flora-apps/', title: 'Flora Apps' },
+                                { url: '/research/unc-herbarium/flora-request/', title: 'Flora Request', meta: 'Form' }
+                            ]
+                        },
+                        { url: '/research/community-science/', title: 'Community Science' },
+                        { url: '/research/research-associates/', title: 'Research Associates' },
+                        { url: '/research/publications/', title: 'Publications' },
+                        { url: '/research/future-of-conservation-forum/', title: 'Future of Conservation Forum' },
+                        { url: '/research/eno-new-hope-plan/', title: 'Eno New Hope Plan' },
+                        { url: '/research/research-permit-request/', title: 'Research Permit Request', meta: 'Form' }
+                    ]
+                },
+                {
+                    url: '/engagement/',
+                    title: 'Engagement',
+                    children: [
+                        {
+                            url: '/engagement/edible-campus-unc/',
+                            title: 'Edible Campus UNC',
+                            children: [
+                                { url: '/engagement/edible-campus-unc/eaters-digest/', title: 'Eaters Digest' },
+                                { url: '/engagement/edible-campus-unc/videos/', title: 'Videos' },
+                                { url: '/engagement/edible-campus-unc/our-team/', title: 'Our Team' },
+                                { url: '/engagement/edible-campus-unc/newsletter-archive/', title: 'Newsletter Archive' },
+                                { url: '/engagement/edible-campus-unc/events/', title: 'Events' },
+                                { url: '/engagement/edible-campus-unc/growing/', title: 'Growing' },
+                                {
+                                    url: '/engagement/edible-campus-unc/get-involved/',
+                                    title: 'Get Involved',
+                                    children: [
+                                        { url: '/engagement/edible-campus-unc/get-involved/volunteer-interest-form/', title: 'Volunteer Interest', meta: 'Form' },
+                                        { url: '/engagement/edible-campus-unc/get-involved/group-interest-form/', title: 'Group Interest', meta: 'Form' }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            url: '/engagement/therapeutic-horticulture/',
+                            title: 'Therapeutic Horticulture',
+                            children: [
+                                { url: '/engagement/therapeutic-horticulture/what-is-th/', title: 'What is TH?' },
+                                { url: '/engagement/therapeutic-horticulture/services/', title: 'Services' },
+                                { url: '/engagement/therapeutic-horticulture/history-and-staff/', title: 'History & Staff' },
+                                { url: '/engagement/therapeutic-horticulture/international-projects/', title: 'International Projects' },
+                                { url: '/engagement/therapeutic-horticulture/faqs/', title: 'FAQs' },
+                                { url: '/engagement/therapeutic-horticulture/adaptive-tools/', title: 'Adaptive Tools' },
+                                { url: '/engagement/therapeutic-horticulture-e-newsletter/', title: 'TH E-Newsletter' },
+                                {
+                                    url: '/engagement/therapeutic-horticulture/hybrid-cth/',
+                                    title: 'Hybrid CTH',
+                                    children: [
+                                        { url: '/engagement/therapeutic-horticulture/hybrid-cth/certificate-in-therapeutic-horticulture-interest-form/', title: 'CTH Interest Form', meta: 'Form' },
+                                        { url: '/engagement/therapeutic-horticulture/hybrid-cth/scholarship/', title: 'CTH Scholarship', meta: 'Form' }
+                                    ]
+                                },
+                                { url: '/engagement/therapeutic-horticulture/online-cth/', title: 'Online CTH' },
+                                { url: '/engagement/therapeutic-horticulture/th-service-request/', title: 'TH Service Request', meta: 'Form' }
+                            ]
+                        },
+                        {
+                            url: '/engagement/ccg/',
+                            title: 'Carolina Community Garden',
+                            children: [
+                                { url: '/engagement/ccg/newsletter/', title: 'Newsletter' },
+                                { url: '/engagement/ccg/wishlist/', title: 'Wishlist' },
+                                { url: '/engagement/ccg/partners/', title: 'Partners' },
+                                { url: '/engagement/ccg/workdays/', title: 'Workdays' }
+                            ]
+                        },
+                        { url: '/engagement/aic-partnership/', title: 'AIC Partnership' }
+                    ]
+                },
+                {
+                    url: '/support/',
+                    title: 'Support',
+                    children: [
+                        { url: '/support/membership/', title: 'Membership' },
+                        { url: '/support/donate/', title: 'Donate' },
+                        { url: '/support/faq/', title: 'FAQ' },
+                        {
+                            url: '/support/volunteer/',
+                            title: 'Volunteer',
+                            children: [
+                                { url: '/support/volunteer/interest-form/', title: 'Interest Form', meta: 'Form' },
+                                { url: '/support/volunteer/volunteer-training-orientation/', title: 'Training & Orientation' }
+                            ]
+                        },
+                        { url: '/support/corporate-partners/', title: 'Corporate Partners' },
+                        { url: '/support/event-hosts/', title: 'Event Hosts' },
+                        { url: '/support/venus-flytrap-license-plate/', title: 'Venus Flytrap License Plate' },
+                        { url: '/support/kmft/', title: 'KMFT' },
+                        { url: '/support/classof1997/', title: 'Class of 1997' },
+                        { url: '/support/boardwalk/', title: 'Boardwalk' },
+                        { url: '/support/arbor/', title: 'Arbor' }
+                    ]
+                },
+                {
+                    url: '/about/',
+                    title: 'About',
+                    children: [
+                        { url: '/about/mission-history/', title: 'Mission & History' },
+                        { url: '/about/our-staff/', title: 'Our Staff' },
+                        { url: '/about/employment/', title: 'Employment' },
+                        { url: '/about/a-conservation-garden/', title: 'A Conservation Garden' },
+                        { url: '/about/sustainable-practice/', title: 'Sustainable Practice' },
+                        { url: '/about/davie-poplar/', title: 'Davie Poplar' },
+                        { url: '/about/awards-interns/', title: 'Awards & Interns' },
+                        {
+                            url: '/about/abc/',
+                            title: 'ABC',
+                            children: [
+                                { url: '/about/abc/land-acknowledgement/', title: 'Land Acknowledgement' }
+                            ]
+                        },
+                        {
+                            url: '/about/newsroom/',
+                            title: 'Newsroom',
+                            children: [
+                                { url: '/about/newsroom/plant-power-podcast/', title: 'Plant Power Podcast' }
+                            ]
+                        },
+                        {
+                            url: '/about/facility-rental/',
+                            title: 'Facility Rental',
+                            children: [
+                                { url: '/about/facility-rental/event-venues/', title: 'Event Venues' },
+                                { url: '/about/facility-rental/event-venues_v2/', title: 'Event Venues V2' },
+                                { url: '/about/facility-rental/weddings/', title: 'Weddings' },
+                                { url: '/about/facility-rental/meetings/', title: 'Meetings' },
+                                { url: '/about/facility-rental/special-events/', title: 'Special Events' },
+                                { url: '/about/facility-rental/photography-sessions/', title: 'Photography Sessions' },
+                                { url: '/about/facility-rental/preparing-for-your-event/', title: 'Preparing for Your Event' },
+                                { url: '/about/facility-rental/photography-reservation-form/', title: 'Photo Reservation', meta: 'Form' },
+                                { url: '/about/facility-rental/external-event-request/', title: 'External Event Request', meta: 'Form' }
+                            ]
+                        },
+                        {
+                            url: '/about/north-carolina-botanical-garden-foundation/',
+                            title: 'NCBG Foundation',
+                            children: [
+                                { url: '/about/north-carolina-botanical-garden-foundation/ncbgf-officers-and-directors/', title: 'Officers & Directors' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/ncbgf-committees/', title: 'Committees' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/ncbgf-land-trust/', title: 'Land Trust' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/ncbgf-foundation-history/', title: 'Foundation History' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/ncbgf-statements/', title: 'Statements' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/annual-membership-meeting/', title: 'Annual Meeting' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/spring-board-meeting/', title: 'Spring Board Meeting' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/summer-board-meeting-2024/', title: 'Summer Board Meeting 2024' },
+                                { url: '/about/north-carolina-botanical-garden-foundation/fall-board-meeting/', title: 'Fall Board Meeting' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    url: '/ncbg/',
+                    title: 'NCBG Campus',
+                    children: [
+                        { url: '/ncbg/accessibility/', title: 'Accessibility' },
+                        { url: '/ncbg/piedmont-nature-trails/', title: 'Piedmont Nature Trails' },
+                        {
+                            url: '/ncbg/aec/',
+                            title: 'Ackland Education Center',
+                            children: [
+                                { url: '/ncbg/aec/exhibit-hall/', title: 'Exhibit Hall' },
+                                { url: '/ncbg/aec/discovery-room/', title: 'Discovery Room' },
+                                { url: '/ncbg/aec/green-features/', title: 'Green Features' },
+                                { url: '/ncbg/aec/garden-shop/', title: 'Garden Shop' },
+                                { url: '/ncbg/aec/library/', title: 'Library' }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            // Problem pages - these have issues
+            problemPages: [
+                { url: '/kitchen-sink/', title: 'Kitchen Sink', meta: 'DELETE - Test Page', problem: true },
+                { url: '/documentation/', title: 'Documentation', meta: 'MOVE - Internal Content', problem: true },
+                { url: '/documentation/staff-only-page/speaking-engagement/', title: 'Speaking Engagement', meta: 'MOVE - Staff Only', problem: true },
+                { url: '/documentation/staff-only-page/plant-sale-invoice/', title: 'Plant Sale Invoice', meta: 'MOVE - Staff Only', problem: true },
+                { url: '/documentation/staff-only-page/internal-event-request/', title: 'Internal Event Request', meta: 'MOVE - Staff Only', problem: true },
+                { url: '/tablepress/', title: 'TablePress', meta: 'DELETE - Utility Page', problem: true },
+                { url: '/fsus-iframe/', title: 'FSUS iFrame', meta: 'DELETE - Utility Page', problem: true },
+                { url: '/aalgh25/', title: 'AALGH25', meta: 'UNCLEAR - Event Code?', problem: true },
+                { url: '/classes-list/', title: 'Classes List', meta: 'CONSOLIDATE - Duplicate', problem: true },
+                { url: '/private-tours-adult-groups/', title: 'Private Tours (Duplicate)', meta: 'CONSOLIDATE - Duplicate', problem: true },
+                { url: '/newsletter-subscribe/', title: 'Newsletter Subscribe', meta: 'CONSOLIDATE - Multiple Sub Pages', problem: true },
+                { url: '/subscribe/', title: 'Subscribe', meta: 'CONSOLIDATE - Multiple Sub Pages', problem: true },
+                { url: '/contact-carolina-community-garden/', title: 'Contact CCG', meta: 'CONSOLIDATE - Specific Contact', problem: true },
+                { url: '/contact-us/', title: 'Contact Us', meta: 'CONSOLIDATE - General Contact', problem: true },
+                { url: '/what-were-watching/', title: 'What Were Watching', meta: 'CONSOLIDATE - Blog Content', problem: true },
+                { url: '/what-were-reading/', title: 'What Were Reading', meta: 'CONSOLIDATE - Blog Content', problem: true },
+                { url: '/wildflower-resource-guide/', title: 'Wildflower Resource Guide', meta: 'MOVE to /plants/', problem: true },
+                { url: '/vft-media-kit/', title: 'VFT Media Kit', meta: 'MOVE to /about/newsroom/', problem: true },
+                { url: '/home/not-stuck-inside-for-adults/', title: 'Not Stuck Inside', meta: 'CONSOLIDATE - COVID Content', problem: true },
+                { url: '/members-seed-request-confirmation/', title: 'Seed Request Confirmation', meta: 'SYSTEM - Confirmation Page', problem: true }
+            ]
+        };
+
+        let currentFilter = 'all';
+        let expandedNodes = new Set();
+
+        function generateSitemap() {
+            const container = document.getElementById('sitemapContainer');
+            container.innerHTML = '';
+            
+            if (currentFilter === 'problems') {
+                renderProblemPages(container);
+            } else {
+                renderNode(sitemapData, container, 0);
+            }
+        }
+
+        function renderNode(node, container, level) {
+            const nodeDiv = document.createElement('div');
+            nodeDiv.className = 'site-node';
+            
+            const hasChildren = node.children && node.children.length > 0;
+            const isExpanded = expandedNodes.has(node.url);
+            
+            const nodeContent = document.createElement('div');
+            nodeContent.className = `node-content level-${level}`;
+            if (level === 0) nodeContent.classList.add('root');
+            
+            const expandIcon = document.createElement('span');
+            expandIcon.className = `expand-icon ${isExpanded ? 'expanded' : ''}`;
+            expandIcon.innerHTML = hasChildren ? '▶' : '•';
+            
+            const urlSpan = document.createElement('span');
+            urlSpan.className = 'node-url';
+            urlSpan.textContent = node.title || node.url;
+            
+            const metaSpan = document.createElement('span');
+            metaSpan.className = 'node-meta';
+            if (node.meta) {
+                metaSpan.textContent = node.meta;
+                if (node.meta.includes('Form')) {
+                    nodeContent.style.borderLeftColor = '#ffc107';
+                }
+            } else {
+                metaSpan.textContent = `Level ${level}`;
+            }
+            
+            nodeContent.appendChild(expandIcon);
+            nodeContent.appendChild(urlSpan);
+            nodeContent.appendChild(metaSpan);
+            
+            if (hasChildren) {
+                nodeContent.style.cursor = 'pointer';
+                nodeContent.onclick = () => toggleNode(node.url);
+            }
+            
+            nodeDiv.appendChild(nodeContent);
+            
+            if (hasChildren) {
+                const childrenDiv = document.createElement('div');
+                childrenDiv.className = `children ${isExpanded ? 'show' : ''}`;
+                
+                node.children.forEach(child => {
+                    renderNode(child, childrenDiv, level + 1);
+                });
+                
+                nodeDiv.appendChild(childrenDiv);
+            }
+            
+            container.appendChild(nodeDiv);
+        }
+
+        function renderProblemPages(container) {
+            const problemsTitle = document.createElement('div');
+            problemsTitle.className = 'node-content root';
+            problemsTitle.innerHTML = '<span class="expand-icon">⚠️</span><span class="node-url">Problem Pages Analysis</span><span class="node-meta">Issues Found</span>';
+            container.appendChild(problemsTitle);
+
+            sitemapData.problemPages.forEach(page => {
+                const nodeDiv = document.createElement('div');
+                nodeDiv.className = 'site-node';
+                
+                const nodeContent = document.createElement('div');
+                nodeContent.className = 'node-content level-1 problem-pages';
+                
+                const expandIcon = document.createElement('span');
+                expandIcon.className = 'expand-icon';
+                expandIcon.innerHTML = '❌';
+                
+                const urlSpan = document.createElement('span');
+                urlSpan.className = 'node-url';
+                urlSpan.textContent = page.title;
+                
+                const metaSpan = document.createElement('span');
+                metaSpan.className = 'node-meta';
+                metaSpan.textContent = page.meta;
+                metaSpan.style.background = '#f5c6cb';
+                metaSpan.style.color = '#721c24';
+                
+                nodeContent.appendChild(expandIcon);
+                nodeContent.appendChild(urlSpan);
+                nodeContent.appendChild(metaSpan);
+                
+                nodeDiv.appendChild(nodeContent);
+                container.appendChild(nodeDiv);
+            });
+        }
+
+        function toggleNode(url) {
+            if (expandedNodes.has(url)) {
+                expandedNodes.delete(url);
+            } else {
+                expandedNodes.add(url);
+            }
+            generateSitemap();
+        }
+
+        function expandAll() {
+            expandedNodes.clear();
+            addAllUrls(sitemapData);
+            generateSitemap();
+            updateActiveButton('expandBtn');
+        }
+
+        function collapseAll() {
+            expandedNodes.clear();
+            generateSitemap();
+            updateActiveButton('collapseBtn');
+        }
+
+        function showProblems() {
+            currentFilter = 'problems';
+            document.getElementById('filterInfo').textContent = `Showing ${sitemapData.problemPages.length} problem pages that need attention`;
+            generateSitemap();
+            updateActiveButton('problemBtn');
+        }
+
+        function showAll() {
+            currentFilter = 'all';
+            document.getElementById('filterInfo').textContent = '';
+            generateSitemap();
+            updateActiveButton('showAllBtn');
+        }
+
+        function updateActiveButton(activeId) {
+            document.querySelectorAll('.controls button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(activeId).classList.add('active');
+        }
+
+        function addAllUrls(node) {
+            if (node.children && node.children.length > 0) {
+                expandedNodes.add(node.url);
+                node.children.forEach(child => addAllUrls(child));
+            }
+        }
+
+        function filterPages() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const allNodes = document.querySelectorAll('.site-node');
+            
+            if (searchTerm === '') {
+                allNodes.forEach(node => {
+                    node.style.display = 'block';
+                    node.querySelector('.node-content').classList.remove('highlight');
+                });
+                document.getElementById('filterInfo').textContent = '';
+                return;
+            }
+            
+            let visibleCount = 0;
+            allNodes.forEach(node => {
+                const text = node.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    node.style.display = 'block';
+                    node.querySelector('.node-content').classList.add('highlight');
+                    visibleCount++;
+                } else {
+                    node.style.display = 'none';
+                    node.querySelector('.node-content').classList.remove('highlight');
+                }
+            });
+            
+            document.getElementById('filterInfo').textContent = `Found ${visibleCount} pages matching "${searchTerm}"`;
+        }
+
+        // Initialize
+        generateSitemap();
+
+        // Update stats
+        document.getElementById('totalPages').textContent = '191';
+        document.getElementById('maxDepth').textContent = '6';
+        document.getElementById('problemPages').textContent = sitemapData.problemPages.length;
+        document.getElementById('orphanedPages').textContent = '15';
+    </script>
+</body>
+</html>
