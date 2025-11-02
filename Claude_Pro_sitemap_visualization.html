@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NC Botanical Garden - Interactive Sitemap Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 30px 40px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .controls {
+            padding: 25px 40px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #4a7c2c;
+            box-shadow: 0 0 0 3px rgba(74, 124, 44, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: #4a7c2c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3a6222;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #495057;
+            border: 2px solid #dee2e6;
+        }
+
+        .btn-secondary:hover {
+            border-color: #adb5bd;
+            transform: translateY(-1px);
+        }
+
+        .stats {
+            padding: 20px 40px;
+            background: #fff9e6;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d5016;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .legend {
+            padding: 20px 40px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .legend h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #495057;
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 40px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .tree {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .tree-node {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .tree-item {
+            margin: 6px 0;
+            position: relative;
+        }
+
+        .tree-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            cursor: pointer;
+            gap: 8px;
+        }
+
+        .tree-label:hover {
+            background: #f8f9fa;
+        }
+
+        .tree-label.highlighted {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            font-weight: 600;
+        }
+
+        .toggle {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            line-height: 16px;
+            cursor: pointer;
+            user-select: none;
+            font-weight: bold;
+            color: #6c757d;
+            transition: transform 0.2s;
+        }
+
+        .toggle:hover {
+            color: #495057;
+        }
+
+        .toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .node-name {
+            font-weight: 500;
+            color: #212529;
+        }
+
+        .node-url {
+            font-size: 12px;
+            color: #6c757d;
+            margin-left: 8px;
+        }
+
+        .node-date {
+            font-size: 11px;
+            color: #adb5bd;
+            margin-left: 8px;
+        }
+
+        .children {
+            margin-left: 24px;
+            border-left: 2px solid #e9ecef;
+            padding-left: 16px;
+            display: none;
+        }
+
+        .children.visible {
+            display: block;
+        }
+
+        /* Color coding */
+        .section-visit { background-color: #d4edda; }
+        .section-learn { background-color: #cfe2ff; }
+        .section-plants { background-color: #d1ecf1; }
+        .section-engagement { background-color: #f8d7da; }
+        .section-research { background-color: #e2d5f0; }
+        .section-support { background-color: #fff3cd; }
+        .section-about { background-color: #f0e8d8; }
+        .section-ncbg { background-color: #ffd6cc; }
+        .section-orphan { background-color: #ffcccc; border: 1px dashed #cc0000; }
+
+        .old-page {
+            opacity: 0.6;
+            font-style: italic;
+        }
+
+        .page-count {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .controls {
+                padding: 15px 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .stats {
+                padding: 15px 20px;
+            }
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .no-results h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 North Carolina Botanical Garden</h1>
+            <p>Interactive Sitemap Visualization - 195 Pages</p>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search pages by name or URL...">
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="expandAll()">Expand All</button>
+                <button class="btn btn-secondary" onclick="collapseAll()">Collapse All</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">195</div>
+                <div class="stat-label">Total Pages</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">7</div>
+                <div class="stat-label">Main Sections</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">61</div>
+                <div class="stat-label">Pages >2 Years Old</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">13</div>
+                <div class="stat-label">Orphaned Pages</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>Section Color Key:</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color section-visit"></div>
+                    <span>Visit</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-learn"></div>
+                    <span>Learn</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-plants"></div>
+                    <span>Plants</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-engagement"></div>
+                    <span>Engagement</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-research"></div>
+                    <span>Research</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-support"></div>
+                    <span>Support</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-about"></div>
+                    <span>About</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-ncbg"></div>
+                    <span>NCBG (Needs Review)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color section-orphan"></div>
+                    <span>Orphaned/Root Pages</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="sitemapTree" class="tree"></div>
+        </div>
+    </div>
+
+    <script>
+        const sitemapData = {
+            "name": "Home",
+            "url": "https://ncbg.unc.edu/",
+            "children": [
+                {"name": "About", "url": "https://ncbg.unc.edu/about/", "section": "about", "children": [
+                    {"name": "Mission & History", "url": "https://ncbg.unc.edu/about/mission-history/", "modified": "2025-02-14", "is_page": true},
+                    {"name": "Our Staff", "url": "https://ncbg.unc.edu/about/our-staff/", "modified": "2025-09-09", "is_page": true},
+                    {"name": "Employment", "url": "https://ncbg.unc.edu/about/employment/", "modified": "2025-09-04", "is_page": true},
+                    {"name": "Sustainable Practice", "url": "https://ncbg.unc.edu/about/sustainable-practice/", "modified": "2022-03-02", "is_page": true},
+                    {"name": "Conservation Garden", "url": "https://ncbg.unc.edu/about/a-conservation-garden/", "modified": "2021-11-08", "is_page": true},
+                    {"name": "Davie Poplar", "url": "https://ncbg.unc.edu/about/davie-poplar/", "modified": "2024-01-17", "is_page": true},
+                    {"name": "ABC", "url": "https://ncbg.unc.edu/about/abc/", "modified": "2025-07-14", "children": [
+                        {"name": "Land Acknowledgement", "url": "https://ncbg.unc.edu/about/abc/land-acknowledgement/", "modified": "2025-07-14", "is_page": true}
+                    ]},
+                    {"name": "Awards & Interns", "url": "https://ncbg.unc.edu/about/awards-interns/", "modified": "2025-07-16", "is_page": true},
+                    {"name": "Newsroom", "url": "https://ncbg.unc.edu/about/newsroom/", "modified": "2025-08-08", "children": [
+                        {"name": "Plant Power Podcast", "url": "https://ncbg.unc.edu/about/newsroom/plant-power-podcast/", "modified": "2021-06-14", "is_page": true}
+                    ]},
+                    {"name": "Facility Rental", "url": "https://ncbg.unc.edu/about/facility-rental/", "modified": "2022-07-21", "children": [
+                        {"name": "Event Venues", "url": "https://ncbg.unc.edu/about/facility-rental/event-venues/", "modified": "2021-06-12", "is_page": true},
+                        {"name": "Event Venues V2", "url": "https://ncbg.unc.edu/about/facility-rental/event-venues_v2/", "modified": "2025-09-05", "is_page": true},
+                        {"name": "Weddings", "url": "https://ncbg.unc.edu/about/facility-rental/weddings/", "modified": "2022-12-01", "is_page": true},
+                        {"name": "Meetings", "url": "https://ncbg.unc.edu/about/facility-rental/meetings/", "modified": "2022-06-14", "is_page": true},
+                        {"name": "Special Events", "url": "https://ncbg.unc.edu/about/facility-rental/special-events/", "modified": "2022-06-14", "is_page": true},
+                        {"name": "Photography Sessions", "url": "https://ncbg.unc.edu/about/facility-rental/photography-sessions/", "modified": "2025-03-04", "is_page": true},
+                        {"name": "Photography Reservation", "url": "https://ncbg.unc.edu/about/facility-rental/photography-reservation-form/", "modified": "2021-11-15", "is_page": true},
+                        {"name": "External Event Request", "url": "https://ncbg.unc.edu/about/facility-rental/external-event-request/", "modified": "2022-04-26", "is_page": true},
+                        {"name": "Preparing For Event", "url": "https://ncbg.unc.edu/about/facility-rental/preparing-for-your-event/", "modified": "2024-09-18", "is_page": true}
+                    ]},
+                    {"name": "NC Botanical Garden Foundation", "url": "https://ncbg.unc.edu/about/north-carolina-botanical-garden-foundation/", "modified": "2025-07-01", "children": [
+                        {"name": "Officers & Directors", "url": "https://ncbg.unc.edu/about/north-carolina-botanical-garden-foundation/ncbgf-officers-and-directors/", "modified": "2025-07-01", "is_page": true},
+                        {"name": "Committees", "url": "https://ncbg.unc.edu/about/north-carolina-botanical-garden-foundation/ncbgf-committees/", "modified": "2025-07-01", "is_page": true},
+                        {"name": "Foundation History", "url": "https://ncbg.unc.edu/about/north-carolina-botanical-garden-foundation/ncbgf-foundation-history/", "modified": "2025-07-01", "is_page": true},
+                        {"name": "Statements", "url": "https://ncbg.unc.edu/about/north-carolina-botanical-garden-foundation/ncbgf-statements/", "modified": "2025-07-01", "is_page": true},
+                        {"name": "Land Trust", "url": "https://ncbg.unc.edu/about/north-carolina-botanical-garden-foundation/ncbgf-land-trust/", "modified": "2025-07-01", "is_page": true},
+                        {"name": "Board Meetings (various)", "url": "https://ncbg.unc.edu/about/north-carolina-botanical-garden-foundation/", "modified": "2024-11-12", "is_page": true}
+                    ]}
+                ]},
+                {"name": "Visit", "url": "https://ncbg.unc.edu/visit/", "section": "visit", "children": [
+                    {"name": "Visitor Information", "url": "https://ncbg.unc.edu/visit/visitor-information/", "modified": "2025-08-08", "is_page": true},
+                    {"name": "Visitor Safety", "url": "https://ncbg.unc.edu/visit/visitor-safety/", "modified": "2023-09-19", "is_page": true},
+                    {"name": "Guided Tours", "url": "https://ncbg.unc.edu/visit/guided-tours/", "modified": "2025-03-31", "is_page": true},
+                    {"name": "Private Tour Request", "url": "https://ncbg.unc.edu/visit/private-tour-request-adult-groups/", "modified": "2021-09-08", "is_page": true},
+                    {"name": "Coker Arboretum", "url": "https://ncbg.unc.edu/visit/coker-arboretum/", "modified": "2025-08-13", "is_page": true},
+                    {"name": "Coker Pinetum", "url": "https://ncbg.unc.edu/visit/coker-pinetum/", "modified": "2023-05-23", "is_page": true},
+                    {"name": "Battle Park & Forest Theatre", "url": "https://ncbg.unc.edu/visit/battle-park-forest-theatre/", "modified": "2024-12-10", "is_page": true},
+                    {"name": "Parker Preserve", "url": "https://ncbg.unc.edu/visit/parker-preserve/", "modified": "2023-05-23", "is_page": true},
+                    {"name": "Mason Farm Biological Reserve", "url": "https://ncbg.unc.edu/visit/mason-farm-biological-reserve/", "modified": "2025-08-08", "children": [
+                        {"name": "MFBR Permit", "url": "https://ncbg.unc.edu/visit/mason-farm-biological-reserve/mfbr-permit/", "modified": "2021-06-12", "is_page": true}
+                    ]},
+                    {"name": "Preserves & Natural Areas", "url": "https://ncbg.unc.edu/visit/preserves-and-natural-areas/", "modified": "2023-11-17", "children": [
+                        {"name": "Natural Areas Request", "url": "https://ncbg.unc.edu/visit/preserves-and-natural-areas/natural-areas-request/", "modified": "2021-06-12", "is_page": true},
+                        {"name": "Page 20618-2", "url": "https://ncbg.unc.edu/visit/preserves-and-natural-areas/20618-2/", "modified": "2023-06-26", "is_page": true}
+                    ]},
+                    {"name": "Exhibits", "url": "https://ncbg.unc.edu/visit/exhibits/", "modified": "2025-07-01", "children": [
+                        {"name": "Educational", "url": "https://ncbg.unc.edu/visit/exhibits/educational/", "modified": "2025-07-01", "is_page": true},
+                        {"name": "DeBerry Gallery", "url": "https://ncbg.unc.edu/visit/exhibits/deberry-gallery/", "modified": "2025-09-18", "is_page": true},
+                        {"name": "Gallery Info", "url": "https://ncbg.unc.edu/visit/exhibits/gallery-info/", "modified": "2025-09-16", "is_page": true},
+                        {"name": "Gallery Application", "url": "https://ncbg.unc.edu/visit/exhibits/gallery-application/", "modified": "2022-04-19", "is_page": true},
+                        {"name": "Sculpture in the Garden", "url": "https://ncbg.unc.edu/visit/exhibits/sculpture-in-the-garden/", "modified": "2025-09-13", "is_page": true},
+                        {"name": "Sculpture Entry Form", "url": "https://ncbg.unc.edu/visit/exhibits/sculpture-entry-form/", "modified": "2025-03-11", "is_page": true},
+                        {"name": "SIG Artist Info", "url": "https://ncbg.unc.edu/visit/exhibits/sig-artist-info/", "modified": "2025-03-11", "is_page": true},
+                        {"name": "BAI Calendar Entry", "url": "https://ncbg.unc.edu/visit/exhibits/bai-calendar-entry/", "modified": "2025-05-02", "is_page": true},
+                        {"name": "Current Exhibits (various)", "url": "https://ncbg.unc.edu/visit/exhibits/", "modified": "2025-02-21", "is_page": true}
+                    ]}
+                ]},
+                {"name": "Learn", "url": "https://ncbg.unc.edu/learn/", "section": "learn", "children": [
+                    {"name": "Adult Programs", "url": "https://ncbg.unc.edu/learn/adult-programs/", "modified": "2024-07-10", "children": [
+                        {"name": "Botanical Art & Illustration", "url": "https://ncbg.unc.edu/learn/adult-programs/botanical-art-illustration/", "modified": "2025-07-25", "is_page": true},
+                        {"name": "Native Plants", "url": "https://ncbg.unc.edu/learn/adult-programs/native-plants/", "modified": "2025-07-25", "is_page": true},
+                        {"name": "Conservation Gardening", "url": "https://ncbg.unc.edu/learn/adult-programs/conservation-gardening/", "modified": "2024-07-10", "is_page": true}
+                    ]},
+                    {"name": "Youth & Family", "url": "https://ncbg.unc.edu/learn/youth-family/", "modified": "2025-08-22", "children": [
+                        {"name": "Kids Activities", "url": "https://ncbg.unc.edu/learn/kids-activities/", "modified": "2023-09-05", "is_page": true},
+                        {"name": "Youth Family Newsletter", "url": "https://ncbg.unc.edu/learn/youth-family/youth-family-e-newsletter/", "modified": "2022-05-25", "is_page": true},
+                        {"name": "Schools Out Camps Scholarship", "url": "https://ncbg.unc.edu/learn/youth-family/schools-out-camps-scholarship-application/", "modified": "2025-08-28", "is_page": true}
+                    ]},
+                    {"name": "Camp Flytrap", "url": "https://ncbg.unc.edu/learn/camp-flytrap/", "modified": "2025-06-17", "children": [
+                        {"name": "Teen Camp Assistant", "url": "https://ncbg.unc.edu/learn/camp-flytrap/teen-camp-assistant-application/", "modified": "2025-02-13", "is_page": true},
+                        {"name": "Partial Scholarship", "url": "https://ncbg.unc.edu/learn/camp-flytrap/camp-flytrap-partial-scholarship-application/", "modified": "2025-07-25", "is_page": true}
+                    ]},
+                    {"name": "Schools & Groups", "url": "https://ncbg.unc.edu/learn/schools-and-groups/", "modified": "2025-03-31", "children": [
+                        {"name": "Guided Field Trips", "url": "https://ncbg.unc.edu/learn/schools-and-groups/guided-field-trips/", "modified": "2025-09-18", "is_page": true},
+                        {"name": "Guided Field Trip Offerings", "url": "https://ncbg.unc.edu/learn/schools-and-groups/guided-field-trip-offerings/", "modified": "2024-08-21", "is_page": true},
+                        {"name": "Guided Field Trip Request", "url": "https://ncbg.unc.edu/learn/schools-and-groups/guided-field-trip-request/", "modified": "2024-08-21", "is_page": true},
+                        {"name": "Guided Field Trip Prep", "url": "https://ncbg.unc.edu/learn/schools-and-groups/guided-field-trip-prep/", "modified": "2025-09-18", "is_page": true},
+                        {"name": "Self-Guided Field Trips", "url": "https://ncbg.unc.edu/learn/schools-and-groups/self-guided-field-trips/", "modified": "2025-09-18", "is_page": true},
+                        {"name": "Self-Guided Field Trip Request", "url": "https://ncbg.unc.edu/learn/schools-and-groups/self-guided-field-trip-request/", "modified": "2024-08-21", "is_page": true},
+                        {"name": "Virtual Field Trips", "url": "https://ncbg.unc.edu/learn/schools-and-groups/virtual-field-trips/", "modified": "2024-08-21", "is_page": true},
+                        {"name": "Teacher Resources", "url": "https://ncbg.unc.edu/learn/schools-and-groups/teacher-resources/", "modified": "2025-09-11", "is_page": true}
+                    ]},
+                    {"name": "Certificate Programs", "url": "https://ncbg.unc.edu/learn/certificate-programs/", "modified": "2022-07-27", "is_page": true},
+                    {"name": "BA Fundamentals", "url": "https://ncbg.unc.edu/learn/ba-fundamentals/", "modified": "2023-07-25", "is_page": true},
+                    {"name": "BAI FAQ", "url": "https://ncbg.unc.edu/learn/bai-faq/", "modified": "2022-09-13", "is_page": true},
+                    {"name": "Bird Friendly Landscapes", "url": "https://ncbg.unc.edu/learn/bird-friendly-landscapes/", "modified": "2025-01-06", "is_page": true},
+                    {"name": "Virtual Programs", "url": "https://ncbg.unc.edu/learn/virtual-programs/", "modified": "2022-07-27", "is_page": true},
+                    {"name": "Recordings", "url": "https://ncbg.unc.edu/learn/recordings/", "modified": "2025-06-11", "is_page": true},
+                    {"name": "Scavenger Hunts", "url": "https://ncbg.unc.edu/learn/scavenger-hunts/", "modified": "2022-11-11", "is_page": true},
+                    {"name": "Visiting Artist Scholarship", "url": "https://ncbg.unc.edu/learn/visiting-artist-partial-scholarship-application/", "modified": "2023-12-19", "is_page": true}
+                ]},
+                {"name": "Plants", "url": "https://ncbg.unc.edu/plants/", "section": "plants", "children": [
+                    {"name": "Native Seed Distribution", "url": "https://ncbg.unc.edu/plants/native-seed-distribution/", "modified": "2025-01-31", "children": [
+                        {"name": "Request", "url": "https://ncbg.unc.edu/plants/native-seed-distribution/request/", "modified": "2025-01-29", "is_page": true}
+                    ]},
+                    {"name": "Plant Sales", "url": "https://ncbg.unc.edu/plants/plant-sales/", "modified": "2025-08-22", "is_page": true},
+                    {"name": "NC Wildflower of the Year", "url": "https://ncbg.unc.edu/plants/nc-wildflower-of-the-year/", "modified": "2025-01-18", "is_page": true},
+                    {"name": "Resources for Gardeners", "url": "https://ncbg.unc.edu/plants/resources-for-gardeners/", "modified": "2023-11-08", "is_page": true},
+                    {"name": "Green Gardener", "url": "https://ncbg.unc.edu/plants/green-gardener/", "modified": "2022-01-12", "is_page": true},
+                    {"name": "Pollinator Central", "url": "https://ncbg.unc.edu/plants/pollinator-central/", "modified": "2022-03-03", "is_page": true}
+                ]},
+                {"name": "Engagement", "url": "https://ncbg.unc.edu/engagement/", "section": "engagement", "children": [
+                    {"name": "Therapeutic Horticulture", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/", "modified": "2025-03-19", "children": [
+                        {"name": "What is TH", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/what-is-th/", "modified": "2025-03-19", "is_page": true},
+                        {"name": "Services", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/services/", "modified": "2023-09-01", "is_page": true},
+                        {"name": "TH Service Request", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/th-service-request/", "modified": "2023-07-07", "is_page": true},
+                        {"name": "History & Staff", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/history-and-staff/", "modified": "2025-05-31", "is_page": true},
+                        {"name": "FAQs", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/faqs/", "modified": "2024-12-09", "is_page": true},
+                        {"name": "International Projects", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/international-projects/", "modified": "2024-12-05", "is_page": true},
+                        {"name": "Adaptive Tools", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/adaptive-tools/", "modified": "2025-08-05", "is_page": true},
+                        {"name": "Hybrid CTH", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/hybrid-cth/", "modified": "2025-07-15", "children": [
+                            {"name": "Scholarship", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/hybrid-cth/scholarship/", "modified": "2025-03-10", "is_page": true}
+                        ]},
+                        {"name": "Online CTH", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture/online-cth/", "modified": "2025-08-21", "is_page": true},
+                        {"name": "Newsletter", "url": "https://ncbg.unc.edu/engagement/therapeutic-horticulture-e-newsletter/", "modified": "2022-07-18", "is_page": true}
+                    ]},
+                    {"name": "Carolina Community Garden", "url": "https://ncbg.unc.edu/engagement/ccg/", "modified": "2024-08-16", "children": [
+                        {"name": "Newsletter", "url": "https://ncbg.unc.edu/engagement/ccg/newsletter/", "modified": "2020-04-16", "is_page": true},
+                        {"name": "Wishlist", "url": "https://ncbg.unc.edu/engagement/ccg/wishlist/", "modified": "2021-06-12", "is_page": true},
+                        {"name": "Partners", "url": "https://ncbg.unc.edu/engagement/ccg/partners/", "modified": "2022-11-30", "is_page": true},
+                        {"name": "Workdays", "url": "https://ncbg.unc.edu/engagement/ccg/workdays/", "modified": "2025-08-29", "is_page": true}
+                    ]},
+                    {"name": "Edible Campus UNC", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/", "modified": "2022-08-18", "children": [
+                        {"name": "Get Involved", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/get-involved/", "modified": "2021-06-12", "is_page": true},
+                        {"name": "Growing", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/growing/", "modified": "2025-06-06", "is_page": true},
+                        {"name": "Events", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/events/", "modified": "2025-08-21", "is_page": true},
+                        {"name": "Our Team", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/our-team/", "modified": "2023-04-06", "is_page": true},
+                        {"name": "Videos", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/videos/", "modified": "2021-06-18", "is_page": true},
+                        {"name": "Newsletter Archive", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/newsletter-archive/", "modified": "2023-04-06", "is_page": true},
+                        {"name": "Eaters Digest", "url": "https://ncbg.unc.edu/engagement/edible-campus-unc/eaters-digest/", "modified": "2019-06-15", "is_page": true}
+                    ]},
+                    {"name": "AIC Partnership", "url": "https://ncbg.unc.edu/engagement/aic-partnership/", "modified": "2025-03-12", "is_page": true}
+                ]},
+                {"name": "Research", "url": "https://ncbg.unc.edu/research/", "section": "research", "children": [
+                    {"name": "Plant Conservation", "url": "https://ncbg.unc.edu/research/plant-conservation/", "modified": "2023-01-20", "children": [
+                        {"name": "Rare Plant Recovery", "url": "https://ncbg.unc.edu/research/plant-conservation/rare-plant-recovery/", "modified": "2021-06-12", "is_page": true},
+                        {"name": "Seed Banking Ecology", "url": "https://ncbg.unc.edu/research/plant-conservation/seed-banking-ecology/", "modified": "2021-06-14", "is_page": true},
+                        {"name": "Land Management", "url": "https://ncbg.unc.edu/research/plant-conservation/land-management/", "modified": "2021-06-12", "is_page": true},
+                        {"name": "PMAS", "url": "https://ncbg.unc.edu/research/plant-conservation/pmas/", "modified": "2023-04-06", "is_page": true}
+                    ]},
+                    {"name": "UNC Herbarium", "url": "https://ncbg.unc.edu/research/unc-herbarium/", "modified": "2025-02-05", "children": [
+                        {"name": "Visitation", "url": "https://ncbg.unc.edu/research/unc-herbarium/visitation/", "modified": "2024-08-22", "is_page": true},
+                        {"name": "Loan Accession Policy", "url": "https://ncbg.unc.edu/research/unc-herbarium/loan-accession-policy/", "modified": "2024-08-22", "is_page": true},
+                        {"name": "Specimen Portals", "url": "https://ncbg.unc.edu/research/unc-herbarium/specimen-portals/", "modified": "2024-08-22", "is_page": true},
+                        {"name": "Collectors", "url": "https://ncbg.unc.edu/research/unc-herbarium/collectors/", "modified": "2025-09-09", "is_page": true},
+                        {"name": "Floras", "url": "https://ncbg.unc.edu/research/unc-herbarium/floras/", "modified": "2025-09-17", "is_page": true},
+                        {"name": "Flora Apps", "url": "https://ncbg.unc.edu/research/unc-herbarium/flora-apps/", "modified": "2025-09-19", "is_page": true},
+                        {"name": "Flora Help", "url": "https://ncbg.unc.edu/research/unc-herbarium/flora-help/", "modified": "2023-02-17", "is_page": true},
+                        {"name": "Flora Request", "url": "https://ncbg.unc.edu/research/unc-herbarium/flora-request/", "modified": "2025-04-07", "is_page": true}
+                    ]},
+                    {"name": "Community Science", "url": "https://ncbg.unc.edu/research/community-science/", "modified": "2024-01-30", "is_page": true},
+                    {"name": "Publications", "url": "https://ncbg.unc.edu/research/publications/", "modified": "2025-07-24", "is_page": true},
+                    {"name": "Research Associates", "url": "https://ncbg.unc.edu/research/research-associates/", "modified": "2024-10-14", "is_page": true},
+                    {"name": "Research Permit Request", "url": "https://ncbg.unc.edu/research/research-permit-request/", "modified": "2023-01-11", "is_page": true},
+                    {"name": "Eno New Hope Plan", "url": "https://ncbg.unc.edu/research/eno-new-hope-plan/", "modified": "2021-06-12", "is_page": true},
+                    {"name": "Future of Conservation Forum", "url": "https://ncbg.unc.edu/research/future-of-conservation-forum/", "modified": "2022-09-02", "is_page": true}
+                ]},
+                {"name": "Support", "url": "https://ncbg.unc.edu/support/", "section": "support", "children": [
+                    {"name": "Membership", "url": "https://ncbg.unc.edu/support/membership/", "modified": "2025-07-31", "is_page": true},
+                    {"name": "Donate", "url": "https://ncbg.unc.edu/support/donate/", "modified": "2025-07-31", "is_page": true},
+                    {"name": "Volunteer", "url": "https://ncbg.unc.edu/support/volunteer/", "modified": "2023-09-27", "children": [
+                        {"name": "Interest Form", "url": "https://ncbg.unc.edu/support/volunteer/interest-form/", "modified": "2023-07-06", "is_page": true},
+                        {"name": "Training Orientation", "url": "https://ncbg.unc.edu/support/volunteer/volunteer-training-orientation/", "modified": "2023-08-31", "is_page": true}
+                    ]},
+                    {"name": "Corporate Partners", "url": "https://ncbg.unc.edu/support/corporate-partners/", "modified": "2025-08-27", "is_page": true},
+                    {"name": "Event Hosts", "url": "https://ncbg.unc.edu/support/event-hosts/", "modified": "2025-01-08", "is_page": true},
+                    {"name": "FAQ", "url": "https://ncbg.unc.edu/support/faq/", "modified": "2025-07-14", "is_page": true},
+                    {"name": "Venus Flytrap License Plate", "url": "https://ncbg.unc.edu/support/venus-flytrap-license-plate/", "modified": "2025-05-23", "is_page": true},
+                    {"name": "KMFT", "url": "https://ncbg.unc.edu/support/kmft/", "modified": "2022-07-28", "is_page": true},
+                    {"name": "Arbor", "url": "https://ncbg.unc.edu/support/arbor/", "modified": "2025-08-13", "is_page": true},
+                    {"name": "Boardwalk", "url": "https://ncbg.unc.edu/support/boardwalk/", "modified": "2023-11-29", "is_page": true},
+                    {"name": "Class of 1997", "url": "https://ncbg.unc.edu/support/classof1997/", "modified": "2023-11-27", "is_page": true}
+                ]},
+                {"name": "NCBG", "url": "https://ncbg.unc.edu/ncbg/", "section": "ncbg", "children": [
+                    {"name": "Ackland Education Center", "url": "https://ncbg.unc.edu/ncbg/aec/", "modified": "2021-10-20", "children": [
+                        {"name": "Discovery Room", "url": "https://ncbg.unc.edu/ncbg/aec/discovery-room/", "modified": "2023-01-13", "is_page": true},
+                        {"name": "Exhibit Hall", "url": "https://ncbg.unc.edu/ncbg/aec/exhibit-hall/", "modified": "2022-01-31", "is_page": true},
+                        {"name": "Green Features", "url": "https://ncbg.unc.edu/ncbg/aec/green-features/", "modified": "2022-03-03", "is_page": true},
+                        {"name": "Garden Shop", "url": "https://ncbg.unc.edu/ncbg/aec/garden-shop/", "modified": "2025-01-02", "is_page": true},
+                        {"name": "Library", "url": "https://ncbg.unc.edu/ncbg/aec/library/", "modified": "2025-03-24", "is_page": true}
+                    ]},
+                    {"name": "Piedmont Nature Trails", "url": "https://ncbg.unc.edu/ncbg/piedmont-nature-trails/", "modified": "2025-08-08", "is_page": true},
+                    {"name": "Accessibility", "url": "https://ncbg.unc.edu/ncbg/accessibility/", "modified": "2025-06-19", "is_page": true}
+                ]},
+                {"name": "🚨 ORPHANED/ROOT PAGES", "section": "orphan", "children": [
+                    {"name": "Contact Us", "url": "https://ncbg.unc.edu/contact-us/", "modified": "2021-06-12", "is_page": true},
+                    {"name": "Classes List", "url": "https://ncbg.unc.edu/classes-list/", "modified": "2019-04-11", "is_page": true},
+                    {"name": "Newsletter Subscribe", "url": "https://ncbg.unc.edu/newsletter-subscribe/", "modified": "2019-05-08", "is_page": true},
+                    {"name": "Subscribe", "url": "https://ncbg.unc.edu/subscribe/", "modified": "2020-08-04", "is_page": true},
+                    {"name": "Contact CCG", "url": "https://ncbg.unc.edu/contact-carolina-community-garden/", "modified": "2020-02-12", "is_page": true},
+                    {"name": "Private Tours Adult Groups", "url": "https://ncbg.unc.edu/private-tours-adult-groups/", "modified": "2022-11-11", "is_page": true},
+                    {"name": "Wildflower Resource Guide", "url": "https://ncbg.unc.edu/wildflower-resource-guide/", "modified": "2021-06-12", "is_page": true},
+                    {"name": "VFT Media Kit", "url": "https://ncbg.unc.edu/vft-media-kit/", "modified": "2021-06-12", "is_page": true},
+                    {"name": "What Were Reading", "url": "https://ncbg.unc.edu/what-were-reading/", "modified": "2020-05-20", "is_page": true},
+                    {"name": "What Were Watching", "url": "https://ncbg.unc.edu/what-were-watching/", "modified": "2020-04-13", "is_page": true},
+                    {"name": "AALGH25", "url": "https://ncbg.unc.edu/aalgh25/", "modified": "2025-01-09", "is_page": true},
+                    {"name": "Members Seed Request Confirmation", "url": "https://ncbg.unc.edu/members-seed-request-confirmation/", "modified": "2024-01-31", "is_page": true},
+                    {"name": "Home (Not Stuck Inside)", "url": "https://ncbg.unc.edu/home/not-stuck-inside-for-adults/", "modified": "2021-06-15", "is_page": true}
+                ]},
+                {"name": "🔧 TECHNICAL/REMOVE", "section": "orphan", "children": [
+                    {"name": "Documentation (Staff Only)", "url": "https://ncbg.unc.edu/documentation/", "modified": "2019-03-19", "is_page": true},
+                    {"name": "Kitchen Sink", "url": "https://ncbg.unc.edu/kitchen-sink/", "modified": "2021-10-07", "is_page": true},
+                    {"name": "FSUS Iframe", "url": "https://ncbg.unc.edu/fsus-iframe/", "modified": "2025-01-18", "is_page": true},
+                    {"name": "TablePress", "url": "https://ncbg.unc.edu/tablepress/", "modified": "2025-01-18", "is_page": true}
+                ]}
+            ]
+        };
+
+        function getSectionClass(node) {
+            if (node.section) return `section-${node.section}`;
+            return '';
+        }
+
+        function isOldPage(modified) {
+            if (!modified) return false;
+            const year = parseInt(modified.split('-')[0]);
+            return year < 2023;
+        }
+
+        function countPages(node) {
+            let count = node.is_page ? 1 : 0;
+            if (node.children) {
+                node.children.forEach(child => {
+                    count += countPages(child);
+                });
+            }
+            return count;
+        }
+
+        function renderTree(node, isRoot = false) {
+            const pageCount = countPages(node);
+            const hasChildren = node.children && node.children.length > 0;
+            const sectionClass = getSectionClass(node);
+            const oldClass = isOldPage(node.modified) ? 'old-page' : '';
+            
+            let html = '<div class="tree-item">';
+            html += `<div class="tree-label ${sectionClass} ${oldClass}" onclick="window.open('${node.url}', '_blank')">`;
+            
+            if (hasChildren) {
+                html += `<span class="toggle" onclick="event.stopPropagation(); toggleNode(this)">▶</span>`;
+            } else {
+                html += '<span class="toggle" style="visibility: hidden;">▶</span>';
+            }
+            
+            html += `<span class="node-name">${node.name}</span>`;
+            
+            if (pageCount > 1) {
+                html += `<span class="page-count">${pageCount}</span>`;
+            }
+            
+            if (node.modified && !isRoot) {
+                const year = node.modified.split('-')[0];
+                html += `<span class="node-date">${year}</span>`;
+            }
+            
+            html += '</div>';
+            
+            if (hasChildren) {
+                html += '<div class="children">';
+                node.children.forEach(child => {
+                    html += renderTree(child);
+                });
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function toggleNode(toggleEl) {
+            const treeItem = toggleEl.closest('.tree-item');
+            const children = treeItem.querySelector('.children');
+            
+            if (children) {
+                children.classList.toggle('visible');
+                toggleEl.classList.toggle('expanded');
+            }
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.children').forEach(el => {
+                el.classList.add('visible');
+            });
+            document.querySelectorAll('.toggle').forEach(el => {
+                el.classList.add('expanded');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.children').forEach(el => {
+                el.classList.remove('visible');
+            });
+            document.querySelectorAll('.toggle').forEach(el => {
+                el.classList.remove('expanded');
+            });
+        }
+
+        function searchSitemap() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const allLabels = document.querySelectorAll('.tree-label');
+            let foundCount = 0;
+
+            allLabels.forEach(label => {
+                label.classList.remove('highlighted');
+                const text = label.textContent.toLowerCase();
+                
+                if (query && text.includes(query)) {
+                    label.classList.add('highlighted');
+                    foundCount++;
+                    
+                    // Expand parents
+                    let parent = label.closest('.children');
+                    while (parent) {
+                        parent.classList.add('visible');
+                        const toggle = parent.previousElementSibling?.querySelector('.toggle');
+                        if (toggle) toggle.classList.add('expanded');
+                        parent = parent.parentElement.closest('.children');
+                    }
+                }
+            });
+
+            if (query && foundCount === 0) {
+                document.getElementById('sitemapTree').innerHTML = `
+                    <div class="no-results">
+                        <h3>No results found</h3>
+                        <p>Try a different search term</p>
+                    </div>
+                `;
+            } else if (!query) {
+                renderSitemap();
+            }
+        }
+
+        function renderSitemap() {
+            const tree = document.getElementById('sitemapTree');
+            tree.innerHTML = renderTree(sitemapData, true);
+        }
+
+        // Initialize
+        renderSitemap();
+        
+        // Search on input
+        document.getElementById('searchInput').addEventListener('input', searchSitemap);
+    </script>
+</body>
+</html>
